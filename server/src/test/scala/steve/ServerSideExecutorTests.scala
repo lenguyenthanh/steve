@@ -4,7 +4,7 @@ import munit.CatsEffectSuite
 import cats.Id
 
 class ExecutorTests extends CatsEffectSuite {
-  val exec = Executor.instance[Either[Throwable, *]]
+  val exec = ServerSideExecutor.instance[Either[Throwable, *]]
 
   test("Build empty image") {
 

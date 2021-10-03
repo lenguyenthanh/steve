@@ -16,17 +16,32 @@ val commonSettings = Seq(
       "com.softwaremill.sttp.tapir" %% "tapir-json-circe" % Versions.tapir,
       "org.typelevel" %% "cats-effect" % "3.2.9",
       "org.typelevel" %% "cats-mtl" % "1.2.1",
-       "org.typelevel" %% "munit-cats-effect-3" % "1.0.5" % Test,
+      "org.typelevel" %% "munit-cats-effect-3" % "1.0.5" % Test,
       ),
   )
 
 val shared = project.settings(commonSettings)
 
-val server = project.settings(commonSettings)
-              .dependsOn(shared)
+val server = project.settings(
+  commonSettings,
+  libraryDependencies ++= Seq(
+      "org.http4s" %% "http4s-dsl" % Versions.http4s,
+      "org.http4s" %% "http4s-ember-server" % Versions.http4s,
+      "com.softwaremill.sttp.tapir" %% "tapir-http4s-server" % Versions.tapir,
+      "ch.qos.logback" % "logback-classic" % Versions.logback,
+    ),
+  )
+  .dependsOn(shared)
 
-val client = project.settings(commonSettings)
-              .dependsOn(shared)
+val client = project.settings(
+  commonSettings,
+  libraryDependencies ++= Seq(
+      "org.http4s" %% "http4s-ember-client" % Versions.http4s,
+      "com.softwaremill.sttp.tapir" %% "tapir-http4s-client" % Versions.tapir,
+      "ch.qos.logback" % "logback-classic" % Versions.logback,
+    ),
+  )
+  .dependsOn(shared)
 
 val root = project
   .in(file("."))
