@@ -17,10 +17,10 @@ object Main extends IOApp.Simple {
       .withHttpApp {
 
         val endpoints = List(
-            protocol.build.serverLogicInfallible { build =>
-              IO.println(build).as(Hash(Array()))
-            }
-          )
+          protocol.build.serverLogicInfallible { build =>
+            IO.println(build).as(Hash(Array()))
+          }
+        )
 
         Http4sServerInterpreter[IO]()
           .toRoutes(endpoints)

@@ -14,7 +14,8 @@ object Command {
 final case class Build(
   base: Build.Base,
   commands: List[Build.Command],
-) derives Codec.AsObject, Schema
+) derives Codec.AsObject,
+    Schema
 
 object Build {
 

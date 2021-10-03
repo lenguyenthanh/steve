@@ -7,12 +7,14 @@ object protocol {
 
   private val base = infallibleEndpoint.in("api")
 
-  val build = base.put
+  val build = base
+    .put
     .in("build")
     .in(jsonBody[Build])
     .out(jsonBody[Hash])
 
-  val run = base.post
+  val run = base
+    .post
     .in("run")
     .in(jsonBody[Hash])
     .out(jsonBody[SystemState])
