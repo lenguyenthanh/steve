@@ -24,6 +24,7 @@ object Main extends IOApp.Simple {
             protocol.run.serverLogicInfallible(exec.run),
           )
 
+
         Http4sServerInterpreter[IO]()
           .toRoutes(endpoints)
           .orNotFound
