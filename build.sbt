@@ -6,7 +6,7 @@ val Versions =
   new {
     val tapir = "0.19.0-M10"
     val http4s = "0.23.4"
-    val logback = "1.2.4"
+    val logback = "1.2.6"
   }
 
 val commonSettings = Seq(
