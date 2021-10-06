@@ -5,7 +5,7 @@ ThisBuild / githubWorkflowPublishTargetBranches := Seq() // Don't publish anywhe
 val Versions =
   new {
     val tapir = "0.19.0-M10"
-    val http4s = "0.23.4"
+    val http4s = "0.23.5"
     val logback = "1.2.6"
   }
 
