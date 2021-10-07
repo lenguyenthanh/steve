@@ -35,12 +35,22 @@ val server = project
   .dependsOn(shared)
 
 val client = project
+  .enablePlugins(NativeImagePlugin)
   .settings(
     commonSettings,
     libraryDependencies ++= Seq(
       "org.http4s" %% "http4s-ember-client" % Versions.http4s,
       "com.softwaremill.sttp.tapir" %% "tapir-http4s-client" % Versions.tapir,
       "ch.qos.logback" % "logback-classic" % Versions.logback,
+    ),
+    Compile / mainClass := Some("steve.Main"),
+    nativeImageVersion := "21.2.0",
+    nativeImageOptions ++= Seq(
+      s"-H:ReflectionConfigurationFiles=${(Compile / resourceDirectory).value / "reflect-config.json"}",
+      s"-H:ResourceConfigurationFiles=${(Compile / resourceDirectory).value / "resource-config.json"}",
+      "-H:+ReportExceptionStackTraces",
+      "--no-fallback",
+      "--allow-incomplete-classpath",
     ),
   )
   .dependsOn(shared)
