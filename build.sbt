@@ -4,10 +4,24 @@ ThisBuild / githubWorkflowPublishTargetBranches := Seq() // Don't publish anywhe
 
 val Versions =
   new {
-    val tapir = "0.19.0-M10"
+    val tapir = "0.19.0-M11"
     val http4s = "0.23.5"
     val logback = "1.2.6"
   }
+
+val nativeImageSettings: Seq[Setting[_]] = Seq(
+  Compile / mainClass := Some("steve.Main"),
+  nativeImageVersion := "21.2.0",
+  nativeImageOptions ++= Seq(
+    s"-H:ReflectionConfigurationFiles=${(Compile / resourceDirectory).value / "reflect-config.json"}",
+    s"-H:ResourceConfigurationFiles=${(Compile / resourceDirectory).value / "resource-config.json"}",
+    "-H:+ReportExceptionStackTraces",
+    "--no-fallback",
+    "--allow-incomplete-classpath",
+  ),
+  nativeImageAgentMerge := true,
+  nativeImageReady := { () => () },
+)
 
 val commonSettings = Seq(
   scalacOptions -= "-Xfatal-warnings",
@@ -35,6 +49,7 @@ val server = project
   .dependsOn(shared)
 
 val client = project
+  .enablePlugins(NativeImagePlugin)
   .settings(
     commonSettings,
     libraryDependencies ++= Seq(
@@ -42,6 +57,7 @@ val client = project
       "com.softwaremill.sttp.tapir" %% "tapir-http4s-client" % Versions.tapir,
       "ch.qos.logback" % "logback-classic" % Versions.logback,
     ),
+    nativeImageSettings,
   )
   .dependsOn(shared)
 
