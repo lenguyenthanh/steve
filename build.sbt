@@ -9,6 +9,20 @@ val Versions =
     val logback = "1.2.6"
   }
 
+val nativeImageSettings: Seq[Setting[_]] = Seq(
+  Compile / mainClass := Some("steve.Main"),
+  nativeImageVersion := "21.2.0",
+  nativeImageOptions ++= Seq(
+    s"-H:ReflectionConfigurationFiles=${(Compile / resourceDirectory).value / "reflect-config.json"}",
+    s"-H:ResourceConfigurationFiles=${(Compile / resourceDirectory).value / "resource-config.json"}",
+    "-H:+ReportExceptionStackTraces",
+    "--no-fallback",
+    "--allow-incomplete-classpath",
+  ),
+  nativeImageAgentMerge := true,
+  nativeImageReady := { () => () },
+)
+
 val commonSettings = Seq(
   scalacOptions -= "-Xfatal-warnings",
   libraryDependencies ++= Seq(
@@ -43,15 +57,7 @@ val client = project
       "com.softwaremill.sttp.tapir" %% "tapir-http4s-client" % Versions.tapir,
       "ch.qos.logback" % "logback-classic" % Versions.logback,
     ),
-    Compile / mainClass := Some("steve.Main"),
-    nativeImageVersion := "21.2.0",
-    nativeImageOptions ++= Seq(
-      s"-H:ReflectionConfigurationFiles=${(Compile / resourceDirectory).value / "reflect-config.json"}",
-      s"-H:ResourceConfigurationFiles=${(Compile / resourceDirectory).value / "resource-config.json"}",
-      "-H:+ReportExceptionStackTraces",
-      "--no-fallback",
-      "--allow-incomplete-classpath",
-    ),
+    nativeImageSettings,
   )
   .dependsOn(shared)
 
