@@ -14,11 +14,11 @@ object ClientSideExecutor {
 
       private def run[I, E <: Throwable, O](endpoint: Endpoint[I, E, O, Any], input: I): F[O] = {
 
-          val (req, handler) = summon[Http4sClientInterpreter[F]]
-              .toRequestUnsafe(endpoint, Some("http://localhost:8080"))
-              .apply(input)
+        val (req, handler) = summon[Http4sClientInterpreter[F]]
+          .toRequestUnsafe(endpoint, Some("http://localhost:8080"))
+          .apply(input)
 
-          client.run(req).use(handler).rethrow
+        client.run(req).use(handler).rethrow
       }
 
       def build(build: Build): F[Hash] = run(protocol.build, build)

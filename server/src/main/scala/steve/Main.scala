@@ -20,10 +20,9 @@ object Main extends IOApp.Simple {
         val exec = ServerSideExecutor.instance[IO]
 
         val endpoints: List[ServerEndpoint[_, _, _, Any, IO]] = List(
-            protocol.build.serverLogicInfallible(exec.build),
-            protocol.run.serverLogicInfallible(exec.run),
-          )
-
+          protocol.build.serverLogicInfallible(exec.build),
+          protocol.run.serverLogicInfallible(exec.run),
+        )
 
         Http4sServerInterpreter[IO]()
           .toRoutes(endpoints)

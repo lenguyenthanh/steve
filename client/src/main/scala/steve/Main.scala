@@ -16,7 +16,6 @@ object Main extends IOApp.Simple {
     .build
     .use { client =>
 
-
       given Http4sClientInterpreter[IO] = Http4sClientInterpreter[IO]()
 
       val exec = ClientSideExecutor.instance[IO](client)
@@ -29,4 +28,5 @@ object Main extends IOApp.Simple {
           .flatMap(result => logger.info("Ran image with result: " + result))
     }
     .orElse(logger.error("Unhandled error"))
+
 }
