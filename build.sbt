@@ -5,7 +5,7 @@ ThisBuild / githubWorkflowBuild ++= Seq(WorkflowStep.Sbt(List("scalafmtCheckAll"
 
 val Versions =
   new {
-    val tapir = "0.19.0-M11"
+    val tapir = "0.19.0-M12"
     val http4s = "0.23.5"
     val logback = "1.2.6"
   }
