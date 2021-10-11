@@ -1,7 +1,6 @@
 package steve
 
 import munit.CatsEffectSuite
-import cats.Id
 
 class ExecutorTests extends CatsEffectSuite {
   val exec = ServerSideExecutor.instance[Either[Throwable, *]]

@@ -37,6 +37,8 @@ val commonSettings = Seq(
 
 val shared = project.settings(commonSettings)
 
+def full(p: Project) = p % "test->test;compile->compile"
+
 val server = project
   .settings(
     commonSettings,
@@ -62,7 +64,11 @@ val client = project
   )
   .dependsOn(shared)
 
+val e2e = project
+.settings(commonSettings)
+  .dependsOn(full(client), full(server))
+
 val root = project
   .in(file("."))
   .settings(publish := {}, publish / skip := true)
-  .aggregate(server, client, shared)
+  .aggregate(server, client, shared, e2e)

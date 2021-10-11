@@ -16,18 +16,7 @@ object Main extends IOApp.Simple {
       .withHost(host"0.0.0.0")
       .withPort(port"8080")
       .withHttpApp {
-
-        val exec = ServerSideExecutor.instance[IO]
-
-        val endpoints: List[ServerEndpoint[_, _, _, Any, IO]] = List(
-          protocol.build.serverLogicInfallible(exec.build),
-          protocol.run.serverLogicInfallible(exec.run),
-        )
-
-        Http4sServerInterpreter[IO]()
-          .toRoutes(endpoints)
-          .orNotFound
-
+        Routing.instance(ServerSideExecutor.instance[IO])
       }
       .build
       .useForever
