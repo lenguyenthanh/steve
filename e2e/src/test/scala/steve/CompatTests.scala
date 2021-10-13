@@ -8,33 +8,47 @@ import cats.implicits._
 
 class CompatTests extends CatsEffectSuite {
 
-  def testExecutor(
-    buildImpl: Map[Build, Either[Throwable, Hash]],
-    runImpl: Map[Hash, Either[Throwable, SystemState]],
-  ): Executor[IO] =
-    new Executor[IO] {
-      def build(build: Build) = buildImpl(build).liftTo[IO]
-      def run(hash: Hash) = runImpl(hash).liftTo[IO]
-    }
-
   given Http4sClientInterpreter[IO] = Http4sClientInterpreter[IO]()
 
   val goodBuild: Build = Build.empty
   val goodBuildResult: Hash = Hash(Vector.empty)
+
+  val unknownHash = Hash(Vector(1))
+
+  val unknownBaseBuild: Build = Build(
+    Build.Base.ImageReference(unknownHash),
+    Nil,
+  )
+
+  val unknownBaseError: Throwable = Build.Error.UnknownBase(unknownHash)
+
+  val unexpectedFailingBuild: Build = Build(
+    Build.Base.EmptyImage,
+    List(steve.Build.Command.Delete("k")),
+  )
+
   val goodHash: Hash = Hash(Vector.empty)
+  val unexpectedFailingHash: Hash = Hash(Vector(42))
   val goodRunResult: SystemState = SystemState(Map.empty)
 
-  val exec: Executor[IO] = testExecutor(
+  val exec: Executor[IO] = TestExecutor.instance(
     Map(
-      goodBuild -> goodBuildResult.asRight
+      goodBuild -> goodBuildResult.asRight,
+      unknownBaseBuild -> unknownBaseError.asLeft,
+      unexpectedFailingBuild -> new Throwable("build internal error").asLeft,
     ),
     Map(
-      goodHash -> goodRunResult.asRight
+      goodHash -> goodRunResult.asRight,
+      unexpectedFailingHash -> new Throwable("run internal error").asLeft,
     ),
   )
 
   val client = ClientSideExecutor.instance[IO](
-    Client.fromHttpApp(Routing.instance(exec))
+    Client.fromHttpApp(
+      Routing.instance[IO](
+        exec
+      )
+    )
   )
 
   test("Build image - success") {
@@ -42,6 +56,21 @@ class CompatTests extends CatsEffectSuite {
     assertIO(
       client.build(goodBuild),
       goodBuildResult,
+    )
+  }
+
+  test("Build image - unknown base error") {
+    assertIO(
+      client.build(unknownBaseBuild).attempt,
+      unknownBaseError.asLeft,
+    )
+  }
+
+  test("Build image - unexpected error") {
+
+    assertIO(
+      client.build(unexpectedFailingBuild).attempt,
+      GenericServerError("server failed").asLeft,
     )
   }
 
@@ -53,4 +82,11 @@ class CompatTests extends CatsEffectSuite {
     )
   }
 
+  test("Run hash - unexpected error") {
+
+    assertIO(
+      client.run(unexpectedFailingHash).attempt,
+      GenericServerError("server failed").asLeft,
+    )
+  }
 }

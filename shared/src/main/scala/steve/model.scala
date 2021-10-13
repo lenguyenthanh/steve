@@ -30,13 +30,23 @@ object Build {
 
   object Command {
     final case class Upsert(key: String, value: String) extends Command
-    final case class DELETE(key: String) extends Command
+    final case class Delete(key: String) extends Command
   }
 
   val empty = Build(Build.Base.EmptyImage, Nil)
+
+  sealed trait Error extends Exception with Product with Serializable derives Codec.AsObject, Schema
+
+  object Error {
+    final case class UnknownBase(hash: Hash) extends Error
+  }
 
 }
 
 final case class Hash(value: Vector[Byte]) derives Codec.AsObject, Schema
 
-final case class SystemState(getAll: Map[String, String]) derives Codec.AsObject, Schema
+final case class SystemState(all: Map[String, String]) derives Codec.AsObject, Schema
+
+final case class GenericServerError(message: String) extends Exception
+  derives Codec.AsObject,
+    Schema

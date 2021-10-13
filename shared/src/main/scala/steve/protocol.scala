@@ -12,6 +12,7 @@ object protocol {
     .in("build")
     .in(jsonBody[Build])
     .out(jsonBody[Hash])
+    .errorOut(jsonBody[Build.Error])
 
   val run = base
     .post

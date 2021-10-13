@@ -1,7 +1,9 @@
 ThisBuild / scalaVersion := "3.1.0-RC2"
 ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / githubWorkflowPublishTargetBranches := Seq() // Don't publish anywhere
-ThisBuild / githubWorkflowBuild ++= Seq(WorkflowStep.Sbt(List("scalafmtCheckAll"), name = Some("Check Formatting")))
+ThisBuild / githubWorkflowBuild ++= Seq(
+  WorkflowStep.Sbt(List("scalafmtCheckAll"), name = Some("Check Formatting"))
+)
 
 val Versions =
   new {
@@ -27,15 +29,20 @@ val nativeImageSettings: Seq[Setting[_]] = Seq(
 val commonSettings = Seq(
   scalacOptions -= "-Xfatal-warnings",
   libraryDependencies ++= Seq(
-    "com.softwaremill.sttp.tapir" %% "tapir-core" % Versions.tapir,
-    "com.softwaremill.sttp.tapir" %% "tapir-json-circe" % Versions.tapir,
     "org.typelevel" %% "cats-effect" % "3.2.9",
-    "org.typelevel" %% "cats-mtl" % "1.2.1",
+    /*"org.typelevel" %% "cats-mtl" % "1.2.1",*/
     "org.typelevel" %% "munit-cats-effect-3" % "1.0.6" % Test,
+    compilerPlugin("org.polyvariant" % "better-tostring" % "0.3.9" cross CrossVersion.full),
   ),
 )
 
-val shared = project.settings(commonSettings)
+val shared = project.settings(
+  commonSettings,
+  libraryDependencies ++= Seq(
+    "com.softwaremill.sttp.tapir" %% "tapir-core" % Versions.tapir,
+    "com.softwaremill.sttp.tapir" %% "tapir-json-circe" % Versions.tapir,
+  ),
+)
 
 def full(p: Project) = p % "test->test;compile->compile"
 
@@ -47,9 +54,11 @@ val server = project
       "org.http4s" %% "http4s-ember-server" % Versions.http4s,
       "com.softwaremill.sttp.tapir" %% "tapir-http4s-server" % Versions.tapir,
       "ch.qos.logback" % "logback-classic" % Versions.logback,
+      "org.http4s" %% "http4s-circe" % Versions.http4s % Test,
+      "org.http4s" %% "http4s-client" % Versions.http4s % Test,
     ),
   )
-  .dependsOn(shared)
+  .dependsOn(full(shared))
 
 val client = project
   .enablePlugins(NativeImagePlugin)
@@ -62,13 +71,14 @@ val client = project
     ),
     nativeImageSettings,
   )
-  .dependsOn(shared)
+  .dependsOn(full(shared))
 
 val e2e = project
-.settings(commonSettings)
+  .settings(commonSettings)
   .dependsOn(full(client), full(server))
 
 val root = project
   .in(file("."))
   .settings(publish := {}, publish / skip := true)
   .aggregate(server, client, shared, e2e)
+

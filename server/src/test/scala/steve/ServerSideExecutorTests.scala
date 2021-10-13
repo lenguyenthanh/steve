@@ -8,7 +8,7 @@ class ExecutorTests extends CatsEffectSuite {
   test("Build empty image") {
 
     assertEquals(
-      exec.build(Build.empty).flatMap(exec.run).map(_.getAll),
+      exec.build(Build.empty).flatMap(exec.run).map(_.all),
       Right(Map.empty),
     )
   }
