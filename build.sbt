@@ -81,4 +81,3 @@ val root = project
   .in(file("."))
   .settings(publish := {}, publish / skip := true)
   .aggregate(server, client, shared, e2e)
-
