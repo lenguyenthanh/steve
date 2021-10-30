@@ -32,8 +32,7 @@ object ClientSideExecutor {
                 .string
                 .flatMap(io.circe.parser.decode[GenericServerError](_).liftTo[F])
                 .flatMap(_.raiseError[F, O])
-            case r =>
-              handler(r).rethrow
+            case r => handler(r).rethrow
           }
       }
 
