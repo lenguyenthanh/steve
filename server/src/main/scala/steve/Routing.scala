@@ -13,9 +13,9 @@ import sttp.model.StatusCode
 object Routing {
 
   def instance[F[_]: Async](exec: Executor[F]): HttpApp[F] = {
-    val endpoints: List[ServerEndpoint[_, _, _, Any, F]] = List(
+    val endpoints: List[ServerEndpoint[Any, F]] = List(
       protocol.build.serverLogicRecoverErrors(exec.build),
-      protocol.run.serverLogicInfallible(exec.run),
+      protocol.run.serverLogicSuccess(exec.run),
     )
 
     Http4sServerInterpreter[F](
