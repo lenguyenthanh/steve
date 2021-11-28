@@ -16,7 +16,7 @@ object Main extends IOApp.Simple {
       .withHost(host"0.0.0.0")
       .withPort(port"8080")
       .withHttpApp {
-        Routing.instance(ServerSideExecutor.instance[IO])
+        Routing.instance(ServerSideExecutor.module[IO])
       }
       .build
       .useForever

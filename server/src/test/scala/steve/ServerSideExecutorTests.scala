@@ -3,7 +3,7 @@ package steve
 import munit.CatsEffectSuite
 
 class ExecutorTests extends CatsEffectSuite {
-  val exec = ServerSideExecutor.instance[Either[Throwable, *]]
+  val exec = ServerSideExecutor.module[Either[Throwable, *]]
 
   test("Build empty image") {
 
