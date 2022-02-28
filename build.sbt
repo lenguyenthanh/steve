@@ -29,7 +29,7 @@ val nativeImageSettings: Seq[Setting[_]] = Seq(
 val commonSettings = Seq(
   scalacOptions -= "-Xfatal-warnings",
   libraryDependencies ++= Seq(
-    "org.typelevel" %% "cats-effect" % "3.3.5",
+    "org.typelevel" %% "cats-effect" % "3.3.6",
     /*"org.typelevel" %% "cats-mtl" % "1.2.1",*/
     "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test,
     compilerPlugin("org.polyvariant" % "better-tostring" % "0.3.14" cross CrossVersion.full),
