@@ -3,6 +3,7 @@ package steve
 import io.circe.Codec
 import sttp.tapir.Schema
 import steve.Build.Base
+import scala.util.control.NoStackTrace
 
 sealed trait Command extends Product with Serializable
 
@@ -35,7 +36,7 @@ object Build {
 
   val empty = Build(Build.Base.EmptyImage, Nil)
 
-  sealed trait Error extends Exception with Product with Serializable derives Codec.AsObject, Schema
+  sealed trait Error extends NoStackTrace with Product with Serializable derives Codec.AsObject, Schema
 
   object Error {
     final case class UnknownBase(hash: Hash) extends Error
@@ -47,6 +48,6 @@ final case class Hash(value: Vector[Byte]) derives Codec.AsObject, Schema
 
 final case class SystemState(all: Map[String, String]) derives Codec.AsObject, Schema
 
-final case class GenericServerError(message: String) extends Exception
+final case class GenericServerError(message: String) extends NoStackTrace
   derives Codec.AsObject,
     Schema
