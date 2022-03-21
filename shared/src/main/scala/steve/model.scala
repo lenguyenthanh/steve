@@ -36,7 +36,9 @@ object Build {
 
   val empty = Build(Build.Base.EmptyImage, Nil)
 
-  sealed trait Error extends NoStackTrace with Product with Serializable derives Codec.AsObject, Schema
+  sealed trait Error extends NoStackTrace with Product with Serializable
+    derives Codec.AsObject,
+      Schema
 
   object Error {
     final case class UnknownBase(hash: Hash) extends Error
