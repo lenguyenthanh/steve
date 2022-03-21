@@ -7,9 +7,9 @@ ThisBuild / githubWorkflowBuild ++= Seq(
 
 val Versions =
   new {
-    val tapir = "0.19.4"
+    val tapir = "0.20.1"
     val http4s = "0.23.11"
-    val logback = "1.2.10"
+    val logback = "1.2.11"
   }
 
 val nativeImageSettings: Seq[Setting[_]] = Seq(
