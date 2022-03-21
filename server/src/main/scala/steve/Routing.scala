@@ -5,10 +5,10 @@ import sttp.tapir.server.ServerEndpoint
 import sttp.tapir.server.http4s.Http4sServerInterpreter
 import cats.effect.kernel.Async
 import sttp.tapir.server.http4s.Http4sServerOptions
-import sttp.tapir.server.interceptor.ValuedEndpointOutput
 import sttp.tapir.*
 import sttp.tapir.json.circe.*
 import sttp.model.StatusCode
+import sttp.tapir.server.model.ValuedEndpointOutput
 
 object Routing {
 
