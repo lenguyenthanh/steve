@@ -18,7 +18,7 @@ object ServerSideExecutor {
       private def resolve(build: Build): F[ResolvedBuild] = (build == Build.empty)
         .guard[Option]
         .as(emptySystem)
-        .liftTo[F](new Throwable("Unsupported build!"))
+        .liftTo[F](Throwable("Unsupported build!"))
         .map { sys =>
           ResolvedBuild(sys, build.commands.map(resolveCommand))
         }
@@ -26,14 +26,14 @@ object ServerSideExecutor {
       def build(build: Build): F[Hash] = resolve(build)
         .flatMap(Interpreter[F].interpret)
         .flatMap {
-          case `emptySystem` => emptyHash.pure[F]
-          case _             => new Throwable("Unsupported system").raiseError[F, Hash]
+          case emptySystem => emptyHash.pure[F]
+          case _           => Throwable("Unsupported system").raiseError[F, Hash]
         }
 
       def run(hash: Hash): F[SystemState] = (hash == emptyHash)
         .guard[Option]
         .as(emptySystem)
-        .liftTo[F](new Throwable("Unsupported hash!"))
+        .liftTo[F](Throwable("Unsupported hash!"))
 
     }
 

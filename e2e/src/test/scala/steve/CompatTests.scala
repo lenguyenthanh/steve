@@ -35,11 +35,11 @@ class CompatTests extends CatsEffectSuite {
     Map(
       goodBuild -> goodBuildResult.asRight,
       unknownBaseBuild -> unknownBaseError.asLeft,
-      unexpectedFailingBuild -> new Throwable("build internal error").asLeft,
+      unexpectedFailingBuild -> Throwable("build internal error").asLeft,
     ),
     Map(
       goodHash -> goodRunResult.asRight,
-      unexpectedFailingHash -> new Throwable("run internal error").asLeft,
+      unexpectedFailingHash -> Throwable("run internal error").asLeft,
     ),
   )
 
