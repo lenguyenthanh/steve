@@ -1,15 +1,16 @@
 package steve
 
 import munit.CatsEffectSuite
+import cats.effect.IO
 
 class ExecutorTests extends CatsEffectSuite {
-  val exec = ServerSideExecutor.module[Either[Throwable, *]]
+  val execR = ServerSideExecutor.module[IO]
 
   test("Build empty image") {
 
-    assertEquals(
-      exec.build(Build.empty).flatMap(exec.run).map(_.all),
-      Right(Map.empty),
+    assertIO(
+      execR.use(exec => exec.build(Build.empty).flatMap(exec.run)).map(_.all),
+      Map.empty,
     )
   }
 }
