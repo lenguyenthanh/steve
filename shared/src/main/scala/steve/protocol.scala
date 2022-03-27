@@ -1,9 +1,9 @@
 package steve
 
 object protocol {
-  import sttp.tapir._
-  import sttp.tapir.json.circe._
-  import sttp.tapir.generic.auto._
+  import sttp.tapir.*
+  import sttp.tapir.json.circe.*
+  import sttp.tapir.generic.auto.*
 
   private val base = infallibleEndpoint.in("api")
 

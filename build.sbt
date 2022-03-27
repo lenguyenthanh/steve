@@ -28,6 +28,9 @@ val nativeImageSettings: Seq[Setting[_]] = Seq(
 
 val commonSettings = Seq(
   scalacOptions -= "-Xfatal-warnings",
+  scalacOptions += "-rewrite",
+  scalacOptions += "-source:future-migration",
+
   libraryDependencies ++= Seq(
     "org.typelevel" %% "cats-effect" % "3.3.9",
     /*"org.typelevel" %% "cats-mtl" % "1.2.1",*/

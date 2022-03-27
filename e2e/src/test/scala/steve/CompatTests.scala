@@ -4,7 +4,7 @@ import munit.CatsEffectSuite
 import cats.effect.IO
 import sttp.tapir.client.http4s.Http4sClientInterpreter
 import org.http4s.client.Client
-import cats.implicits._
+import cats.implicits.*
 
 class CompatTests extends CatsEffectSuite {
 
