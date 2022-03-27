@@ -4,6 +4,7 @@ import io.circe.Codec
 import sttp.tapir.Schema
 import steve.Build.Base
 import scala.util.control.NoStackTrace
+import cats.Show
 
 sealed trait Command extends Product with Serializable
 
@@ -42,9 +43,20 @@ object Build:
     final case class UnknownHash(hash: Hash) extends Error
 
 
-final case class Hash(value: Vector[Byte]) derives Codec.AsObject, Schema
+final case class Hash(value: Vector[Byte]) derives Codec.AsObject, Schema:
+  def toHex: String = value.map("%02X".format(_)).mkString.toLowerCase
+
+  override def toString: String = toHex
+
+object Hash:
+  given Show[Hash] = Show.fromToString
 
 final case class SystemState(all: Map[String, String]) derives Codec.AsObject, Schema
+
+object SystemState:
+  given Show[SystemState] = Show.fromToString[SystemState]
+
+  val empty: SystemState = SystemState(Map.empty)
 
 final case class GenericServerError(message: String) extends NoStackTrace
   derives Codec.AsObject,
