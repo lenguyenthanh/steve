@@ -10,9 +10,9 @@ import sttp.tapir.json.circe.*
 import sttp.model.StatusCode
 import sttp.tapir.server.model.ValuedEndpointOutput
 
-object Routing {
+object Routing:
 
-  def instance[F[_]: Async](exec: Executor[F]): HttpApp[F] = {
+  def instance[F[_]: Async](exec: Executor[F]): HttpApp[F] =
     val endpoints: List[ServerEndpoint[Any, F]] = List(
       protocol.build.serverLogicRecoverErrors(exec.build),
       protocol.run.serverLogicSuccess(exec.run),
@@ -33,6 +33,4 @@ object Routing {
     )
       .toRoutes(endpoints)
       .orNotFound
-  }
 
-}

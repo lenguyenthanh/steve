@@ -5,11 +5,9 @@ final case class ResolvedBuild(
   commands: List[ResolvedBuild.Command],
 )
 
-object ResolvedBuild {
+object ResolvedBuild:
 
-  enum Command {
+  enum Command:
     case Upsert(key: String, value: String)
     case Delete(key: String)
-  }
 
-}

@@ -8,7 +8,7 @@ import sttp.tapir.PublicEndpoint
 import org.http4s.Status
 import org.http4s.implicits.*
 
-object ClientSideExecutor {
+object ClientSideExecutor:
 
   def instance[F[_]: Http4sClientInterpreter: MonadCancelThrow](
     client: Client[F]
@@ -21,7 +21,7 @@ object ClientSideExecutor {
       private def run[I, E <: Throwable, O](
         endpoint: PublicEndpoint[I, E, O, Any],
         input: I,
-      ): F[O] = {
+      ): F[O] =
 
         val (req, handler) = summon[Http4sClientInterpreter[F]]
           .toRequestThrowDecodeFailures(endpoint, Some(uri"http://localhost:8080"))
@@ -38,11 +38,9 @@ object ClientSideExecutor {
                 .flatMap(_.raiseError[F, O])
             case r => handler(r).rethrow
           }
-      }
 
       def build(build: Build): F[Hash] = run(protocol.build, build)
 
       def run(hash: Hash): F[SystemState] = run(protocol.run, hash)
     }
 
-}

@@ -6,7 +6,7 @@ import sttp.tapir.client.http4s.Http4sClientInterpreter
 import org.http4s.client.Client
 import cats.implicits.*
 
-class CompatTests extends CatsEffectSuite {
+class CompatTests extends CatsEffectSuite:
 
   given Http4sClientInterpreter[IO] = Http4sClientInterpreter[IO]()
 
@@ -89,4 +89,3 @@ class CompatTests extends CatsEffectSuite {
       GenericServerError("server failed").asLeft,
     )
   }
-}

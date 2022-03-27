@@ -8,7 +8,7 @@ import org.scalacheck.Arbitrary
 import org.scalacheck.Gen
 import ResolvedBuild.Command.*
 
-class InterpreterTests extends ScalaCheckSuite {
+class InterpreterTests extends ScalaCheckSuite:
   val interpreter = Interpreter.instance[Id]
 
   given Arbitrary[SystemState] = Arbitrary(Gen.resultOf(SystemState.apply))
@@ -69,10 +69,9 @@ class InterpreterTests extends ScalaCheckSuite {
         commands: List[ResolvedBuild.Command],
         moreCommands: List[ResolvedBuild.Command],
       ) =>
-        val lhs = {
+        val lhs =
           val sys1 = interpreter.interpret(ResolvedBuild(system, commands))
           interpreter.interpret(ResolvedBuild(sys1, moreCommands))
-        }
         val rhs = interpreter.interpret(ResolvedBuild(system, commands ++ moreCommands))
         assertEquals(
           lhs,
@@ -81,4 +80,3 @@ class InterpreterTests extends ScalaCheckSuite {
     }
   }
 
-}

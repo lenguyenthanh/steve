@@ -7,7 +7,7 @@ import sttp.tapir.client.http4s.Http4sClientInterpreter
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 import cats.effect.IOApp
 
-object Main extends IOApp.Simple {
+object Main extends IOApp.Simple:
 
   val logger = Slf4jLogger.getLogger[IO]
 
@@ -29,4 +29,3 @@ object Main extends IOApp.Simple {
     }
     .orElse(logger.error("Unhandled error"))
 
-}

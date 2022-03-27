@@ -1,6 +1,6 @@
 package steve
 
-object protocol {
+object protocol:
   import sttp.tapir.*
   import sttp.tapir.json.circe.*
   import sttp.tapir.generic.auto.*
@@ -20,4 +20,3 @@ object protocol {
     .in(jsonBody[Hash])
     .out(jsonBody[SystemState])
 
-}

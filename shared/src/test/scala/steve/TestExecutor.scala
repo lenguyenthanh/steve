@@ -3,7 +3,7 @@ package steve
 import cats.effect.IO
 import cats.implicits.*
 
-object TestExecutor {
+object TestExecutor:
 
   def instance(
     buildImpl: Map[Build, Either[Throwable, Hash]],
@@ -14,4 +14,3 @@ object TestExecutor {
       def run(hash: Hash): IO[SystemState] = runImpl(hash).liftTo[IO]
     }
 
-}

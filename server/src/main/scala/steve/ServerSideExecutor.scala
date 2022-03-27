@@ -27,13 +27,12 @@ object ServerSideExecutor:
 
     }
 
-  def module[F[_]: MonadThrow: Ref.Make: UUIDGen]: Resource[F, Executor[F]] = {
+  def module[F[_]: MonadThrow: Ref.Make: UUIDGen]: Resource[F, Executor[F]] =
     val unit = Applicative[F].unit.toResource
 
     given Interpreter[F] = Interpreter.instance[F]
-    for {
+    for
       given Registry[F] <- Registry.inMemory[F]
       _ <- unit
       given Resolver[F] = Resolver.instance[F]
-    } yield instance[F]
-  }
+    yield instance[F]

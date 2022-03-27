@@ -3,7 +3,7 @@ package steve
 import munit.CatsEffectSuite
 import cats.effect.IO
 
-class ExecutorTests extends CatsEffectSuite {
+class ExecutorTests extends CatsEffectSuite:
   val execR = ServerSideExecutor.module[IO]
 
   test("Build empty image") {
@@ -13,4 +13,3 @@ class ExecutorTests extends CatsEffectSuite {
       Map.empty,
     )
   }
-}

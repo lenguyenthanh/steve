@@ -9,7 +9,7 @@ import org.http4s.Method.*
 import org.http4s.implicits.*
 import io.circe.Json
 
-class RoutingTests extends CatsEffectSuite {
+class RoutingTests extends CatsEffectSuite:
 
   val exec = Client.fromHttpApp(
     Routing.instance(
@@ -50,4 +50,3 @@ class RoutingTests extends CatsEffectSuite {
       output,
     )
   }
-}

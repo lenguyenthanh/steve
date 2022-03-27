@@ -18,13 +18,12 @@ object Resolver:
   def instance[F[_]: MonadThrow: Registry]: Resolver[F] =
     new Resolver {
 
-      private val resolveCommand: Build.Command => ResolvedBuild.Command = {
+      private val resolveCommand: Build.Command => ResolvedBuild.Command =
         case Build.Command.Upsert(k, v) => ResolvedBuild.Command.Upsert(k, v)
         case Build.Command.Delete(k)    => ResolvedBuild.Command.Delete(k)
-      }
 
       private def resolveBase(base: Build.Base): F[SystemState] =
-        base match {
+        base match
           case Build.Base.EmptyImage =>
             Registry[F]
               .lookup(Registry.emptyHash)
@@ -33,7 +32,6 @@ object Resolver:
             Registry[F]
               .lookup(hash)
               .flatMap(_.liftTo[F](UnknownBase(hash)))
-        }
 
       def resolve(build: Build): F[ResolvedBuild] = resolveBase(build.base)
         .map { sys =>
