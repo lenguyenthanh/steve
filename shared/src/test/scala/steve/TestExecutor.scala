@@ -13,4 +13,3 @@ object TestExecutor:
       def build(build: Build): IO[Hash] = buildImpl(build).liftTo[IO]
       def run(hash: Hash): IO[SystemState] = runImpl(hash).liftTo[IO]
     }
-

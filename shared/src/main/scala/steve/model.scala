@@ -42,7 +42,6 @@ object Build:
     final case class UnknownBase(hash: Hash) extends Error
     final case class UnknownHash(hash: Hash) extends Error
 
-
 final case class Hash(value: Vector[Byte]) derives Codec.AsObject, Schema:
   def toHex: String = value.map("%02X".format(_)).mkString.toLowerCase
 

@@ -43,4 +43,3 @@ object ClientSideExecutor:
 
       def run(hash: Hash): F[SystemState] = run(protocol.run, hash)
     }
-

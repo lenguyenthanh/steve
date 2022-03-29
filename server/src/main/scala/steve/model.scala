@@ -10,4 +10,3 @@ object ResolvedBuild:
   enum Command:
     case Upsert(key: String, value: String)
     case Delete(key: String)
-

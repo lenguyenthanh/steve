@@ -28,4 +28,3 @@ object Main extends IOApp.Simple:
           .flatMap(result => logger.info("Ran image with result: " + result))
     }
     .orElse(logger.error("Unhandled error"))
-

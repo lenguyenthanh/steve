@@ -26,4 +26,3 @@ object Interpreter:
         .pure[F]
 
     }
-

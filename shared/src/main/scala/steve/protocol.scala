@@ -19,4 +19,3 @@ object protocol:
     .in("run")
     .in(jsonBody[Hash])
     .out(jsonBody[SystemState])
-

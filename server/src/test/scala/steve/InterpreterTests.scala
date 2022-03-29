@@ -69,4 +69,3 @@ class InterpreterTests extends ScalaCheckSuite:
         )
     }
   }
-

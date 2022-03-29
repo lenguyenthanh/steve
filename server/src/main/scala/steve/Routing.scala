@@ -33,4 +33,3 @@ object Routing:
     )
       .toRoutes(endpoints)
       .orNotFound
-
