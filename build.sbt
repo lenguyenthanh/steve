@@ -7,7 +7,7 @@ ThisBuild / githubWorkflowBuild ++= Seq(
 
 val Versions =
   new {
-    val tapir = "1.0.0-M4"
+    val tapir = "1.0.0-M5"
     val http4s = "0.23.11"
     val logback = "1.2.11"
   }
@@ -31,7 +31,6 @@ val commonSettings = Seq(
   scalacOptions += "-rewrite",
   scalacOptions += "-source:future",
   scalacOptions += "-indent",
-
   libraryDependencies ++= Seq(
     "org.typelevel" %% "cats-effect" % "3.3.9",
     /*"org.typelevel" %% "cats-mtl" % "1.2.1",*/
