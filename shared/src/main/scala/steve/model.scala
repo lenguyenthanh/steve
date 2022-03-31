@@ -31,6 +31,7 @@ object Build:
   object Command:
     final case class Upsert(key: String, value: String) extends Command
     final case class Delete(key: String) extends Command
+    given Show[Command] = Show.fromToString
 
   val empty = Build(Build.Base.EmptyImage, Nil)
 

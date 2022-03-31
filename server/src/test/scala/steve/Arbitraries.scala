@@ -13,4 +13,11 @@ object Arbitraries:
     )
   }
 
+  given arbBuildCommand: Arbitrary[Build.Command] = Arbitrary {
+    Gen.oneOf(
+      Gen.resultOf(Build.Command.Upsert.apply),
+      Gen.resultOf(Build.Command.Delete.apply),
+    )
+  }
+
   given Arbitrary[Hash] = Arbitrary(Gen.resultOf(Hash.apply))

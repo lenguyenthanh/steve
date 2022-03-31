@@ -19,9 +19,9 @@ object Registry:
   val emptyHash: Hash = Hash(Vector.empty)
   val emptySystem: SystemState = SystemState(Map.empty)
 
-  def inMemory[
-    F[_]: MonadThrow: Ref.Make: UUIDGen
-  ]: Resource[F, Registry[F]] = Ref[F].of(Map(emptyHash -> emptySystem)).toResource.map { ref =>
+  def inMemory[F[_]: MonadThrow: Ref.Make: UUIDGen](
+    initialState: Map[Hash, SystemState]
+  ): Resource[F, Registry[F]] = Ref[F].of(initialState).toResource.map { ref =>
     new Registry {
 
       def save(system: SystemState): F[Hash] = UUIDGen[F].randomUUID.flatMap { uuid =>
@@ -39,3 +39,5 @@ object Registry:
 
     }
   }
+
+  def instance[F[_]: MonadThrow: Ref.Make: UUIDGen] = inMemory(Map(emptyHash -> emptySystem))
