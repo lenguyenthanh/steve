@@ -4,9 +4,7 @@ import cats.effect.implicits.*
 import cats.implicits.*
 import cats.MonadThrow
 import cats.effect.kernel.Ref
-import cats.effect.kernel.Resource
 import steve.Build.Error.*
-import cats.effect.std.UUIDGen
 
 trait Registry[F[_]]:
   def save(system: SystemState): F[Hash]
@@ -16,19 +14,13 @@ object Registry:
 
   def apply[F[_]](using ev: Registry[F]) = ev
 
-  val emptyHash: Hash = Hash(Vector.empty)
-  val emptySystem: SystemState = SystemState(Map.empty)
-
-  def inMemory[F[_]: MonadThrow: Ref.Make: UUIDGen](
-    initialState: Map[Hash, SystemState]
-  ): Resource[F, Registry[F]] = Ref[F].of(initialState).toResource.map { ref =>
+  def inMemory[
+    F[_]: MonadThrow: Ref.Make: Hasher
+  ]: F[Registry[F]] = Ref[F].of(Map.empty[Hash, SystemState]).map { ref =>
     new Registry {
 
-      def save(system: SystemState): F[Hash] = UUIDGen[F].randomUUID.flatMap { uuid =>
+      def save(system: SystemState): F[Hash] = Hasher[F].hash(system).flatMap { hash =>
         ref.modify { map =>
-          val hash = map
-            .collectFirst { case (k, `system`) => k }
-            .getOrElse(Hash(uuid.toString.getBytes.toVector))
           (map + (hash -> system), hash)
         }
       }
@@ -40,4 +32,4 @@ object Registry:
     }
   }
 
-  def instance[F[_]: MonadThrow: Ref.Make: UUIDGen] = inMemory(Map(emptyHash -> emptySystem))
+  def instance[F[_]: MonadThrow: Ref.Make: Hasher] = inMemory

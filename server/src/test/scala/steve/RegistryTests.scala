@@ -9,11 +9,12 @@ import cats.implicits.*
 
 object RegistryTests extends SimpleIOSuite with Checkers:
 
+  given Hasher[IO] = Hasher.sha256Hasher[IO]
   val registryR = Registry.instance[IO]
 
   test("save -> lookup returns the same system") {
     forall { (system: SystemState) =>
-      registryR.use { registry =>
+      registryR.flatMap { registry =>
         for
           hash <- registry.save(system)
           result <- registry.lookup(hash)
@@ -24,7 +25,7 @@ object RegistryTests extends SimpleIOSuite with Checkers:
 
   test("save is idempotent") {
     forall { (system: SystemState, systems: List[SystemState], hash: Hash) =>
-      registryR.use { registry =>
+      registryR.flatMap { registry =>
         for
           hash1 <- registry.save(system)
           _ <- systems.traverse_(registry.save)
@@ -36,7 +37,7 @@ object RegistryTests extends SimpleIOSuite with Checkers:
 
   test("lookup is idempotent") {
     forall { (systems: List[SystemState], otherSystems: List[SystemState], hash: Hash) =>
-      registryR.use { registry =>
+      registryR.flatMap { registry =>
         for
           _ <- systems.traverse_(registry.save)
           result1 <- registry.lookup(hash)

@@ -24,10 +24,7 @@ object Resolver:
 
       private def resolveBase(base: Build.Base): F[SystemState] =
         base match
-          case Build.Base.EmptyImage =>
-            Registry[F]
-              .lookup(Registry.emptyHash)
-              .flatMap(_.liftTo[F](Throwable("Impossible! Hash not found for emptyImage")))
+          case Build.Base.EmptyImage => SystemState.empty.pure[F]
           case Build.Base.ImageReference(hash) =>
             Registry[F]
               .lookup(hash)

@@ -8,12 +8,12 @@ import cats.effect.kernel.Ref
 import cats.effect.kernel.Resource
 import cats.effect.std.UUIDGen
 import cats.Applicative
+import cats.effect.kernel.Sync
 
 object ServerSideExecutor:
 
   def instance[F[_]: Interpreter: Resolver: Registry: MonadThrow]: Executor[F] =
     new Executor[F] {
-      private val emptyHash: Hash = Hash(Vector.empty)
       private val emptySystem: SystemState = SystemState(Map.empty)
 
       def build(build: Build): F[Hash] = Resolver[F]
@@ -27,12 +27,13 @@ object ServerSideExecutor:
 
     }
 
-  def module[F[_]: MonadThrow: Ref.Make: UUIDGen]: Resource[F, Executor[F]] =
+  def module[F[_]: MonadThrow: Sync]: Resource[F, Executor[F]] =
     val unit = Applicative[F].unit.toResource
 
     given Interpreter[F] = Interpreter.instance[F]
+    given Hasher[F] = Hasher.sha256Hasher[F]
     for
-      given Registry[F] <- Registry.instance[F]
+      given Registry[F] <- Registry.instance[F].toResource
       _ <- unit
       given Resolver[F] = Resolver.instance[F]
     yield instance[F]
