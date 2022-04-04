@@ -8,11 +8,9 @@ import cats.Show
 import io.circe.Decoder
 import io.circe.syntax.*
 
-sealed trait Command extends Product with Serializable
-
-object Command:
-  final case class Build(build: steve.Build) extends Command
-  final case class Run(hash: Hash) extends Command
+enum Command:
+  case Build(build: steve.Build)
+  case Run(hash: Hash)
 
 final case class Build(
   base: Build.Base,
@@ -22,28 +20,22 @@ final case class Build(
 
 object Build:
 
-  sealed trait Base extends Product with Serializable derives Codec.AsObject, Schema
+  enum Base derives Codec.AsObject, Schema:
+    case EmptyImage
+    case ImageReference(hash: Hash)
 
-  object Base:
-    case object EmptyImage extends Base
-    final case class ImageReference(hash: Hash) extends Base
-
-  sealed trait Command extends Product with Serializable derives Codec.AsObject, Schema
+  enum Command derives Codec.AsObject, Schema:
+    case Upsert(key: String, value: String)
+    case Delete(key: String)
 
   object Command:
-    final case class Upsert(key: String, value: String) extends Command
-    final case class Delete(key: String) extends Command
     given Show[Command] = Show.fromToString
 
   val empty = Build(Build.Base.EmptyImage, Nil)
 
-  sealed trait Error extends NoStackTrace with Product with Serializable
-    derives Codec.AsObject,
-      Schema
-
-  object Error:
-    final case class UnknownBase(hash: Hash) extends Error
-    final case class UnknownHash(hash: Hash) extends Error
+  enum Error extends NoStackTrace derives Codec.AsObject, Schema:
+    case UnknownBase(hash: Hash)
+    case UnknownHash(hash: Hash)
 
 final case class Hash(value: Vector[Byte]) derives Schema:
   def toHex: String = value.map("%02X".format(_)).mkString.toLowerCase
