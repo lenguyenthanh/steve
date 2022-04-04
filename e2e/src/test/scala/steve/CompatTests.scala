@@ -89,3 +89,11 @@ class CompatTests extends CatsEffectSuite:
       GenericServerError("server failed").asLeft,
     )
   }
+
+  test("List Images - success") {
+
+    assertIO(
+      client.listImages.attempt,
+      List(goodHash).asRight,
+    )
+  }

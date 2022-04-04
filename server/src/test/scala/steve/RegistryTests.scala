@@ -47,3 +47,21 @@ object RegistryTests extends SimpleIOSuite with Checkers:
       }
     }
   }
+
+  test("list on an empty registry is empty") {
+    registryR.flatMap { registry =>
+      for result <- registry.list
+      yield assert(result.isEmpty)
+    }
+  }
+
+  test("save + list returns saved systems") {
+    forall { (systems: List[SystemState]) =>
+      registryR.flatMap { registry =>
+        for
+          hashes <- systems.traverse(registry.save)
+          list <- registry.list
+        yield assert(list.toSet == hashes.toSet)
+      }
+    }
+  }

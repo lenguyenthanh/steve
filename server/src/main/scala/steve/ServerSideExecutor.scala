@@ -25,6 +25,8 @@ object ServerSideExecutor:
         .lookup(hash)
         .flatMap(_.liftTo[F](steve.Build.Error.UnknownHash(hash)))
 
+      def listImages: F[List[Hash]] = Registry[F].list
+
     }
 
   def module[F[_]: MonadThrow: Sync]: Resource[F, Executor[F]] =

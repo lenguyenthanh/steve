@@ -9,6 +9,7 @@ import steve.Build.Error.*
 trait Registry[F[_]]:
   def save(system: SystemState): F[Hash]
   def lookup(hash: Hash): F[Option[SystemState]]
+  def list: F[List[Hash]]
 
 object Registry:
 
@@ -28,6 +29,10 @@ object Registry:
       def lookup(hash: Hash): F[Option[SystemState]] = ref
         .get
         .map(_.get(hash))
+
+      def list: F[List[Hash]] = ref
+        .get
+        .map(_.keys.toList)
 
     }
   }
