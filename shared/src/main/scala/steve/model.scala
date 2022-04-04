@@ -5,6 +5,8 @@ import sttp.tapir.Schema
 import steve.Build.Base
 import scala.util.control.NoStackTrace
 import cats.Show
+import io.circe.Decoder
+import io.circe.syntax.*
 
 sealed trait Command extends Product with Serializable
 
@@ -43,15 +45,29 @@ object Build:
     final case class UnknownBase(hash: Hash) extends Error
     final case class UnknownHash(hash: Hash) extends Error
 
-final case class Hash(value: Vector[Byte]) derives Codec.AsObject, Schema:
+final case class Hash(value: Vector[Byte]) derives Schema:
   def toHex: String = value.map("%02X".format(_)).mkString.toLowerCase
 
   override def toString: String = toHex
 
 object Hash:
+
+  def parse(s: String): Either[String, Hash] =
+    if (s.length % 2 == 0)
+      val bytes = s.grouped(2).map(Integer.parseInt(_, 16).toByte).toVector
+      Right(Hash(bytes))
+    else Left(s"Invalid hash: $s")
+
+  given Codec[Hash] = Codec.from(
+    Decoder[String].emap(parse),
+    _.toHex.asJson,
+  )
+
   given Show[Hash] = Show.fromToString
 
-final case class SystemState(all: Map[String, String]) derives Codec.AsObject, Schema
+final case class SystemState(all: Map[String, String]) derives Codec.AsObject, Schema:
+  def upsert(key: String, value: String) = SystemState(all + (key -> value))
+  def delete(key: String) = SystemState(all - key)
 
 object SystemState:
   given Show[SystemState] = Show.fromToString[SystemState]
