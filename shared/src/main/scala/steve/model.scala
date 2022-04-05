@@ -11,6 +11,7 @@ import io.circe.syntax.*
 enum Command:
   case Build(build: steve.Build)
   case Run(hash: Hash)
+  case List
 
 final case class Build(
   base: Build.Base,
@@ -60,6 +61,12 @@ object Hash:
 final case class SystemState(all: Map[String, String]) derives Codec.AsObject, Schema:
   def upsert(key: String, value: String) = SystemState(all + (key -> value))
   def delete(key: String) = SystemState(all - key)
+
+  def prettyPrint: String = all
+    .toList
+    .sortBy(_._1)
+    .map { case (key, value) => s"$key: $value" }
+    .mkString("\n")
 
 object SystemState:
   given Show[SystemState] = Show.fromToString[SystemState]
