@@ -15,37 +15,45 @@ import fs2.io.file.Files
 
 object Main extends CommandIOApp("steve", "CLI for Steve", true, "0.0.1"):
 
-  val input: Opts[IO[Command]] =
-    val build: Opts[IO[Command]] = Opts
-      .subcommand("build", "Build an image")(Opts.argument[Path]("path"))
-      .map(p =>
-        Files[IO]
-          .readAll(fs2.io.file.Path.fromNioPath(p) / "steve.json")
-          .through(fs2.text.utf8.decode[IO])
-          .compile
-          .string
-          .flatMap(io.circe.parser.decode[Build](_).liftTo[IO])
-          .map(Command.Build(_))
-      )
+  enum CLICommand:
+    case Build(ctx: Path)
+    case Run(hash: Hash)
+    case List
 
-    val run: Opts[IO[Command]] =
+  val input: Opts[CLICommand] =
+    val build: Opts[CLICommand] =
+      Opts
+        .subcommand("build", "Build an image")(Opts.argument[Path]("path").map(CLICommand.Build(_)))
+
+    val run: Opts[CLICommand] =
       Opts
         .subcommand("run", "run built image")(
           Opts
             .argument[String]("hash")
-            .map(
+            .mapValidated(
               Hash
                 .parse(_)
-                .leftMap(Exception(_))
-                .liftTo[IO]
-                .map(Command.Run(_))
+                .map(CLICommand.Run(_))
+                .toValidatedNel
             )
         )
 
-    val list: Opts[IO[Command]] =
-      Opts.subcommand("list", "List known images")(Opts(Command.List.pure[IO]))
+    val list: Opts[CLICommand] = Opts.subcommand("list", "List known images")(Opts(CLICommand.List))
 
     build <+> run <+> list
+
+  val inputIO: CLICommand => IO[Command] =
+    case CLICommand.Build(ctx) =>
+      Files[IO]
+        .readAll(fs2.io.file.Path.fromNioPath(ctx) / "steve.json")
+        .through(fs2.text.utf8.decode[IO])
+        .compile
+        .string
+        .flatMap(io.circe.parser.decode[Build](_).liftTo[IO])
+        .map(Command.Build(_))
+
+    case CLICommand.Run(hash) => Command.Run(hash).pure[IO]
+    case CLICommand.List      => Command.List.pure[IO]
 
   def exec: Resource[IO, Executor[IO]] = EmberClientBuilder
     .default[IO]
@@ -65,8 +73,12 @@ object Main extends CommandIOApp("steve", "CLI for Steve", true, "0.0.1"):
         images.mkString("\n")
       }
 
-  def main: Opts[IO[ExitCode]] = input.map {
-    _.flatMap { cmd =>
-      exec.use(eval(_)(cmd)).flatMap(IO.println)
-    }.as(ExitCode.Success)
+  val main: Opts[IO[ExitCode]] = input.map {
+    inputIO(_)
+      .flatMap { cmd =>
+        exec.use(eval(_)(cmd))
+      }
+      .flatMap(IO.println)
+      .as(ExitCode.Success)
   }
+
