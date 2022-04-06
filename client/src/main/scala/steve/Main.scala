@@ -11,11 +11,10 @@ import com.monovore.decline.Opts
 import cats.effect.ExitCode
 import cats.effect.kernel.Resource
 import java.nio.file.Path
-import fs2.io.file.Files
-import cats.MonadThrow
 import cats.Functor
 import cats.Monad
 import cats.effect.kernel.Async
+import cats.Applicative
 
 object Main extends CommandIOApp("steve", "CLI for Steve", true, "0.0.1"):
 
@@ -31,14 +30,10 @@ object Main extends CommandIOApp("steve", "CLI for Steve", true, "0.0.1"):
       ClientSideExecutor.instance[F](client)
     }
 
-  def convertCommand[F[_]: Files: MonadThrow](using fs2.Compiler[F, F]): CLICommand => F[Command] =
+  def convertCommand[F[_]: BuildReader: Applicative]: CLICommand => F[Command] =
     case CLICommand.Build(ctx) =>
-      Files[F]
-        .readAll(fs2.io.file.Path.fromNioPath(ctx) / "steve.json")
-        .through(fs2.text.utf8.decode[F])
-        .compile
-        .string
-        .flatMap(io.circe.parser.decode[Build](_).liftTo[F])
+      BuildReader[F]
+        .read(fs2.io.file.Path.fromNioPath(ctx) / "steve.json")
         .map(Command.Build(_))
     case CLICommand.Run(hash) => Command.Run(hash).pure[F]
     case CLICommand.List      => Command.List.pure[F]
@@ -50,6 +45,8 @@ object Main extends CommandIOApp("steve", "CLI for Steve", true, "0.0.1"):
       exec.listImages.map { images =>
         images.mkString("\n")
       }
+
+  given BuildReader[IO] = BuildReader.instance[IO]
 
   val main: Opts[IO[ExitCode]] = FrontEnd.parseInput.map {
     convertCommand[IO](_)

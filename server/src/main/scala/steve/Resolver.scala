@@ -15,7 +15,7 @@ object Resolver:
 
   def apply[F[_]](using ev: Resolver[F]) = ev
 
-  def instance[F[_]: MonadThrow: Registry]: Resolver[F] =
+  def instance[F[_]: Registry: MonadThrow]: Resolver[F] =
     new Resolver {
 
       private val resolveCommand: Build.Command => ResolvedBuild.Command =
