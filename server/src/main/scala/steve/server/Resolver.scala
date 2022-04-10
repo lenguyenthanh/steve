@@ -1,4 +1,4 @@
-package steve
+package steve.server
 
 import cats.effect.implicits.*
 import cats.implicits.*
@@ -7,6 +7,8 @@ import cats.effect.kernel.Ref
 import cats.effect.kernel.Resource
 import steve.Build.Error.*
 import cats.effect.std.UUIDGen
+import steve.Build
+import steve.SystemState
 
 trait Resolver[F[_]]:
   def resolve(build: Build): F[ResolvedBuild]

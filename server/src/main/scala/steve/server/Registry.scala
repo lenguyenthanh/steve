@@ -1,10 +1,12 @@
-package steve
+package steve.server
 
 import cats.effect.implicits.*
 import cats.implicits.*
 import cats.MonadThrow
 import cats.effect.kernel.Ref
 import steve.Build.Error.*
+import steve.SystemState
+import steve.Hash
 
 trait Registry[F[_]]:
   def save(system: SystemState): F[Hash]

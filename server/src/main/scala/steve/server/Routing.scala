@@ -1,4 +1,4 @@
-package steve
+package steve.server
 
 import org.http4s.HttpApp
 import sttp.tapir.server.ServerEndpoint
@@ -11,6 +11,9 @@ import sttp.model.StatusCode
 import sttp.tapir.server.model.ValuedEndpointOutput
 import cats.MonadThrow
 import sttp.tapir.server.interceptor.exception.ExceptionHandler
+import steve.Executor
+import steve.GenericServerError
+import steve.protocol
 
 object Routing:
 

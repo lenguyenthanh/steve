@@ -1,4 +1,4 @@
-package steve
+package steve.client
 
 import cats.effect.IO
 import cats.implicits.*
@@ -15,6 +15,8 @@ import cats.Functor
 import cats.Monad
 import cats.effect.kernel.Async
 import cats.Applicative
+import steve.Executor
+import steve.Command
 
 object Main extends CommandIOApp("steve", "CLI for Steve", true, "0.0.1"):
 

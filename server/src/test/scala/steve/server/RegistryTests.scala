@@ -1,4 +1,4 @@
-package steve
+package steve.server
 
 import weaver.*
 import weaver.scalacheck.Checkers
@@ -6,6 +6,8 @@ import cats.effect.IO
 import org.scalacheck.Prop.forAll
 import Arbitraries.given
 import cats.implicits.*
+import steve.SystemState
+import steve.Hash
 
 object RegistryTests extends SimpleIOSuite with Checkers:
 

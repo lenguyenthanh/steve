@@ -1,7 +1,8 @@
-package steve
+package steve.server
 
 import munit.CatsEffectSuite
 import cats.effect.IO
+import steve.Build
 
 class ExecutorTests extends CatsEffectSuite:
   val execR = ServerSideExecutor.module[IO]

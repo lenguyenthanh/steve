@@ -1,4 +1,4 @@
-package steve
+package steve.server
 
 import cats.effect.IOApp
 import org.http4s.ember.server.EmberServerBuilder

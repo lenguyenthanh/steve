@@ -1,4 +1,4 @@
-package steve
+package steve.server
 
 import cats.Id
 import cats.catsInstancesForId
@@ -6,6 +6,7 @@ import munit.ScalaCheckSuite
 import org.scalacheck.Prop.forAll
 import ResolvedBuild.Command.*
 import Arbitraries.given
+import steve.SystemState
 
 class InterpreterTests extends ScalaCheckSuite:
   val interpreter = Interpreter.instance[Id]

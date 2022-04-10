@@ -1,4 +1,4 @@
-package steve
+package steve.client
 
 import cats.effect.MonadCancelThrow
 import org.http4s.client.Client
@@ -7,6 +7,12 @@ import cats.implicits.*
 import sttp.tapir.PublicEndpoint
 import org.http4s.Status
 import org.http4s.implicits.*
+import steve.Executor
+import steve.Build
+import steve.Hash
+import steve.SystemState
+import steve.GenericServerError
+import steve.protocol
 
 object ClientSideExecutor:
 
