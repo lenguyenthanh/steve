@@ -80,7 +80,7 @@ val client = project
     ),
     nativeImageSettings,
   )
-  .dependsOn(full(shared))
+  .dependsOn(full(shared), server)
 
 val e2e = project
   .settings(commonSettings)

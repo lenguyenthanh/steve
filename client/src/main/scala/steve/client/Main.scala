@@ -53,7 +53,9 @@ object Main extends CommandIOApp("steve", "CLI for Steve", true, "0.0.1"):
   val main: Opts[IO[ExitCode]] = FrontEnd.parseInput.map {
     convertCommand[IO](_)
       .flatMap { cmd =>
-        exec[IO].use(eval[IO](_)(cmd))
+        steve.server.Main.server.surround {
+          exec[IO].use(eval[IO](_)(cmd))
+        }
       }
       .flatMap(IO.println)
       .as(ExitCode.Success)
