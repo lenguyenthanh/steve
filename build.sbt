@@ -32,8 +32,8 @@ val commonSettings = Seq(
   scalacOptions += "-source:future",
   scalacOptions += "-indent",
   libraryDependencies ++= Seq(
-    "org.typelevel" %% "cats-effect" % "3.3.12",
-    /*"org.typelevel" %% "cats-mtl" % "1.2.1",*/
+    "org.typelevel" %% "cats-effect" % "3.3.11",
+    "co.fs2" %% "fs2-core" % "3.2.7",
     "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test,
     "com.disneystreaming" %% "weaver-cats" % "0.7.12" % Test,
     "com.disneystreaming" %% "weaver-scalacheck" % "0.7.12" % Test,
@@ -45,6 +45,7 @@ val commonSettings = Seq(
 val shared = project.settings(
   commonSettings,
   libraryDependencies ++= Seq(
+    "com.softwaremill.sttp.client3" %% "fs2" % "3.5.1",
     "com.softwaremill.sttp.tapir" %% "tapir-core" % Versions.tapir,
     "com.softwaremill.sttp.tapir" %% "tapir-json-circe" % Versions.tapir,
   ),
