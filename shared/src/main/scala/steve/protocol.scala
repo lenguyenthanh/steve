@@ -1,6 +1,8 @@
 package steve
 
 import sttp.tapir.Endpoint
+import sttp.capabilities.fs2.Fs2Streams
+import sttp.model.StatusCode
 
 object protocol:
   import sttp.tapir.*
@@ -16,6 +18,14 @@ object protocol:
     .out(jsonBody[Hash])
     .errorOut(jsonBody[Build.Error])
 
+  def buildStream[F[_]] =
+    base
+      .put
+      .in("build")
+      .in(jsonBody[Build])
+      .out(streamTextBody(Fs2Streams[F])(CodecFormat.Json.apply(), None))
+      .errorOut(statusCode(StatusCode.UnprocessableEntity).and(jsonBody[Build.Error]))
+
   val run: PublicEndpoint[Hash, Nothing, SystemState, Any] = base
     .post
     .in("run")
@@ -26,3 +36,4 @@ object protocol:
     .get
     .in("images")
     .out(jsonBody[List[Hash]])
+
