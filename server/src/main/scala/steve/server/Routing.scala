@@ -26,7 +26,7 @@ object Routing:
 
     Http4sServerInterpreter[F](
       Http4sServerOptions
-        .customInterceptors[F, F]
+        .customiseInterceptors[F]
         .exceptionHandler(
           // https://github.com/softwaremill/tapir/pull/2001
           ExceptionHandler.pure[F](ex =>
