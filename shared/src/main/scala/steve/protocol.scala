@@ -18,13 +18,12 @@ object protocol:
     .out(jsonBody[Hash])
     .errorOut(jsonBody[Build.Error])
 
-  def buildStream[F[_]] =
-    base
-      .put
-      .in("build")
-      .in(jsonBody[Build])
-      .out(streamTextBody(Fs2Streams[F])(CodecFormat.Json.apply(), None))
-      .errorOut(statusCode(StatusCode.UnprocessableEntity).and(jsonBody[Build.Error]))
+  def buildStream[F[_]] = base
+    .put
+    .in("build")
+    .in(jsonBody[Build])
+    .out(streamTextBody(Fs2Streams[F])(CodecFormat.Json.apply(), None))
+    .errorOut(statusCode(StatusCode.UnprocessableEntity).and(jsonBody[Build.Error]))
 
   val run: PublicEndpoint[Hash, Nothing, SystemState, Any] = base
     .post
@@ -36,4 +35,3 @@ object protocol:
     .get
     .in("images")
     .out(jsonBody[List[Hash]])
-
