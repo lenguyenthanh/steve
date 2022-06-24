@@ -45,7 +45,7 @@ val commonSettings = Seq(
 val shared = project.settings(
   commonSettings,
   libraryDependencies ++= Seq(
-    "com.softwaremill.sttp.client3" %% "fs2" % "3.5.1",
+    "com.softwaremill.sttp.client3" %% "fs2" % "3.6.2",
     "com.softwaremill.sttp.tapir" %% "tapir-core" % Versions.tapir,
     "com.softwaremill.sttp.tapir" %% "tapir-json-circe" % Versions.tapir,
   ),
