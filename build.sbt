@@ -7,7 +7,7 @@ ThisBuild / githubWorkflowBuild ++= Seq(
 
 val Versions =
   new {
-    val tapir = "1.0.0-RC3"
+    val tapir = "1.0.1"
     val http4s = "0.23.12"
     val logback = "1.2.11"
   }
@@ -76,7 +76,7 @@ val client = project
       "org.http4s" %% "http4s-ember-client" % Versions.http4s,
       "com.softwaremill.sttp.tapir" %% "tapir-http4s-client" % Versions.tapir,
       "ch.qos.logback" % "logback-classic" % Versions.logback,
-      "com.monovore" %% "decline-effect" % "2.2.0",
+      "com.monovore" %% "decline-effect" % "2.3.0",
     ),
     nativeImageSettings,
   )
