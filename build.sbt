@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "3.1.2"
+ThisBuild / scalaVersion := "3.1.3"
 ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / githubWorkflowPublishTargetBranches := Seq() // Don't publish anywhere
 ThisBuild / githubWorkflowBuild ++= Seq(
@@ -37,7 +37,7 @@ val commonSettings = Seq(
     "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test,
     "com.disneystreaming" %% "weaver-cats" % "0.7.14" % Test,
     "com.disneystreaming" %% "weaver-scalacheck" % "0.7.14" % Test,
-    compilerPlugin("org.polyvariant" % "better-tostring" % "0.3.15" cross CrossVersion.full),
+    compilerPlugin("org.polyvariant" % "better-tostring" % "0.3.16" cross CrossVersion.full),
   ),
   testFrameworks += new TestFramework("weaver.framework.CatsEffect"),
 )
