@@ -1,34 +1,34 @@
 pull_request_rules:
-  - name: automatic merge for nt9-bot pull requests affecting build.sbt
+  - name: automatic merge for nt9-steward pull requests affecting build.sbt
     conditions:
-      - author=nt9-bot[bot]
+      - author=nt9-steward[bot]
       - check-success~=Build and Test*
       - "#files=1"
       - files=build.sbt
     actions:
       merge:
         method: rebase
-  - name: automatic merge for nt9-bot pull requests affecting project plugins.sbt
+  - name: automatic merge for nt9-steward pull requests affecting project plugins.sbt
     conditions:
-      - author=nt9-bot[bot]
+      - author=nt9-steward[bot]
       - check-success~=Build and Test*
       - "#files=1"
       - files=project/plugins.sbt
     actions:
       merge:
         method: rebase
-  - name: automatic merge for nt9-bot pull requests affecting .scalafmt.conf
+  - name: automatic merge for nt9-steward pull requests affecting .scalafmt.conf
     conditions:
-      - author=nt9-bot[bot]
+      - author=nt9-steward[bot]
       - check-success~=Build and Test*
       - "#files=1"
       - files=.scalafmt.conf
     actions:
       merge:
         method: rebase
-  - name: automatic merge for nt9-bot pull requests affecting project build.properties
+  - name: automatic merge for nt9-steward pull requests affecting project build.properties
     conditions:
-      - author=nt9-bot[bot]
+      - author=nt9-steward[bot]
       - check-success~=Build and Test*
       - "#files=1"
       - files=project/build.properties
