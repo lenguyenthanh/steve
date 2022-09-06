@@ -7,9 +7,10 @@ ThisBuild / githubWorkflowBuild ++= Seq(
 
 val Versions =
   new {
+
     val tapir = "1.0.3"
     val http4s = "0.23.15"
-    val logback = "1.2.11"
+    val logback = "1.4.0"
   }
 
 val nativeImageSettings: Seq[Setting[_]] = Seq(
@@ -35,9 +36,9 @@ val commonSettings = Seq(
     "org.typelevel" %% "cats-effect" % "3.3.14",
     /*"org.typelevel" %% "cats-mtl" % "1.2.1",*/
     "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test,
-    "com.disneystreaming" %% "weaver-cats" % "0.7.14" % Test,
-    "com.disneystreaming" %% "weaver-scalacheck" % "0.7.14" % Test,
-    compilerPlugin("org.polyvariant" % "better-tostring" % "0.3.16" cross CrossVersion.full),
+    "com.disneystreaming" %% "weaver-cats" % "0.7.15" % Test,
+    "com.disneystreaming" %% "weaver-scalacheck" % "0.7.15" % Test,
+    compilerPlugin("org.polyvariant" % "better-tostring" % "0.3.17" cross CrossVersion.full),
   ),
   testFrameworks += new TestFramework("weaver.framework.CatsEffect"),
 )
