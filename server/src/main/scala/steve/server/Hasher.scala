@@ -1,7 +1,7 @@
 package steve.server
 
 import cats.effect.implicits.*
-import cats.implicits.*
+import cats.syntax.all.*
 import steve.Build.Error.*
 import cats.effect.kernel.Sync
 import java.security.MessageDigest

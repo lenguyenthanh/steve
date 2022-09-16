@@ -1,7 +1,7 @@
 package steve
 
 import cats.ApplicativeThrow
-import cats.implicits.*
+import cats.syntax.all.*
 
 trait Executor[F[_]]:
   def build(build: Build): F[Hash]

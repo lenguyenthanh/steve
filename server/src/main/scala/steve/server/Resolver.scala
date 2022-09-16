@@ -1,7 +1,7 @@
 package steve.server
 
 import cats.effect.implicits.*
-import cats.implicits.*
+import cats.syntax.all.*
 import cats.MonadThrow
 import cats.effect.kernel.Ref
 import cats.effect.kernel.Resource
@@ -18,7 +18,7 @@ object Resolver:
   def apply[F[_]](using ev: Resolver[F]) = ev
 
   def instance[F[_]: Registry: MonadThrow]: Resolver[F] =
-    new Resolver {
+    new Resolver:
 
       private val resolveCommand: Build.Command => ResolvedBuild.Command =
         case Build.Command.Upsert(k, v) => ResolvedBuild.Command.Upsert(k, v)
@@ -36,5 +36,3 @@ object Resolver:
         .map { sys =>
           ResolvedBuild(sys, build.commands.map(resolveCommand))
         }
-
-    }

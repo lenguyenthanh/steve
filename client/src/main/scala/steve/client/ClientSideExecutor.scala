@@ -3,7 +3,7 @@ package steve.client
 import cats.effect.MonadCancelThrow
 import org.http4s.client.Client
 import sttp.tapir.client.http4s.Http4sClientInterpreter
-import cats.implicits.*
+import cats.syntax.all.*
 import sttp.tapir.PublicEndpoint
 import org.http4s.Status
 import org.http4s.implicits.*
@@ -21,7 +21,7 @@ object ClientSideExecutor:
   )(
     using fs2.Compiler[F, F]
   ): Executor[F] =
-    new Executor[F] {
+    new Executor[F]:
       private val emptyHash: Hash = Hash(Vector())
 
       private def run[I, E <: Throwable, O](
@@ -50,4 +50,3 @@ object ClientSideExecutor:
       def run(hash: Hash): F[SystemState] = run(protocol.run, hash)
 
       val listImages: F[List[Hash]] = run(protocol.listImages, ())
-    }

@@ -1,6 +1,6 @@
 package steve.client
 
-import cats.implicits.*
+import cats.syntax.all.*
 import com.monovore.decline.Opts
 import java.nio.file.Path
 import cats.kernel.Eq

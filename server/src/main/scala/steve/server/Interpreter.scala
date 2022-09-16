@@ -1,6 +1,6 @@
 package steve.server
 
-import cats.implicits.*
+import cats.syntax.all.*
 import cats.Applicative
 import cats.data.State
 import monocle.syntax.all.*
@@ -13,7 +13,7 @@ object Interpreter:
   def apply[F[_]](using F: Interpreter[F]): Interpreter[F] = F
 
   def instance[F[_]: Applicative]: Interpreter[F] =
-    new Interpreter[F] {
+    new Interpreter[F]:
 
       // can replace monocle with upsert and delete functions
       private val transisition: ResolvedBuild.Command => State[SystemState, Unit] =
@@ -26,5 +26,3 @@ object Interpreter:
         .runS(build.base)
         .value
         .pure[F]
-
-    }

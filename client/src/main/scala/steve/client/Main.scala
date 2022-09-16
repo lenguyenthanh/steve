@@ -1,7 +1,7 @@
 package steve.client
 
 import cats.effect.IO
-import cats.implicits.*
+import cats.syntax.all.*
 import org.http4s.ember.client.EmberClientBuilder
 import sttp.tapir.client.http4s.Http4sClientInterpreter
 import org.typelevel.log4cats.slf4j.Slf4jLogger

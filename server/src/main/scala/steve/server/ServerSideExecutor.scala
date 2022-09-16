@@ -1,6 +1,6 @@
 package steve.server
 
-import cats.implicits.*
+import cats.syntax.all.*
 import cats.effect.implicits.*
 import cats.MonadThrow
 import cats.ApplicativeThrow
@@ -17,7 +17,7 @@ import steve.Hash
 object ServerSideExecutor:
 
   def instance[F[_]: Interpreter: Resolver: Registry: MonadThrow]: Executor[F] =
-    new Executor[F] {
+    new Executor[F]:
       private val emptySystem: SystemState = SystemState(Map.empty)
 
       def build(build: Build): F[Hash] = Resolver[F]
@@ -30,8 +30,6 @@ object ServerSideExecutor:
         .flatMap(_.liftTo[F](steve.Build.Error.UnknownHash(hash)))
 
       def listImages: F[List[Hash]] = Registry[F].list
-
-    }
 
   def module[F[_]: MonadThrow: Sync]: Resource[F, Executor[F]] =
     val unit = Applicative[F].unit.toResource

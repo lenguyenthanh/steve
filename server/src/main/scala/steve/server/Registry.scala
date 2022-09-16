@@ -1,7 +1,7 @@
 package steve.server
 
 import cats.effect.implicits.*
-import cats.implicits.*
+import cats.syntax.all.*
 import cats.MonadThrow
 import cats.effect.kernel.Ref
 import steve.Build.Error.*
@@ -20,7 +20,7 @@ object Registry:
   def inMemory[
     F[_]: MonadThrow: Ref.Make: Hasher
   ]: F[Registry[F]] = Ref[F].of(Map.empty[Hash, SystemState]).map { ref =>
-    new Registry {
+    new Registry:
 
       def save(system: SystemState): F[Hash] = Hasher[F].hash(system).flatMap { hash =>
         ref.modify { map =>
@@ -36,7 +36,6 @@ object Registry:
         .get
         .map(_.keys.toList)
 
-    }
   }
 
   def instance[F[_]: MonadThrow: Ref.Make: Hasher] = inMemory
