@@ -3,7 +3,7 @@ package steve.client
 import cats.effect.MonadCancelThrow
 import org.http4s.client.Client
 import sttp.tapir.client.http4s.Http4sClientInterpreter
-import cats.implicits.*
+import cats.syntax.all.*
 import sttp.tapir.PublicEndpoint
 import org.http4s.Status
 import org.http4s.implicits.*

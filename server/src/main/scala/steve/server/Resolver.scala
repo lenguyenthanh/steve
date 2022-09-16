@@ -1,7 +1,7 @@
 package steve.server
 
 import cats.effect.implicits.*
-import cats.implicits.*
+import cats.syntax.all.*
 import cats.MonadThrow
 import cats.effect.kernel.Ref
 import cats.effect.kernel.Resource

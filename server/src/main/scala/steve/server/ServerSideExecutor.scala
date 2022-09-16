@@ -1,6 +1,6 @@
 package steve.server
 
-import cats.implicits.*
+import cats.syntax.all.*
 import cats.effect.implicits.*
 import cats.MonadThrow
 import cats.ApplicativeThrow

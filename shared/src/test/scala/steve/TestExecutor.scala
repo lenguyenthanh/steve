@@ -1,7 +1,7 @@
 package steve
 
 import cats.effect.IO
-import cats.implicits.*
+import cats.syntax.all.*
 
 object TestExecutor:
 

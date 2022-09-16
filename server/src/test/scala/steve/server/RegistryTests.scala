@@ -5,7 +5,7 @@ import weaver.scalacheck.Checkers
 import cats.effect.IO
 import org.scalacheck.Prop.forAll
 import Arbitraries.given
-import cats.implicits.*
+import cats.syntax.all.*
 import steve.SystemState
 import steve.Hash
 

@@ -1,6 +1,6 @@
 package steve.server
 
-import cats.implicits.*
+import cats.syntax.all.*
 import cats.Applicative
 import cats.data.State
 import monocle.syntax.all.*
