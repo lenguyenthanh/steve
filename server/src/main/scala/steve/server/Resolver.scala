@@ -36,4 +36,3 @@ object Resolver:
         .map { sys =>
           ResolvedBuild(sys, build.commands.map(resolveCommand))
         }
-

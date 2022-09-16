@@ -31,7 +31,6 @@ object ServerSideExecutor:
 
       def listImages: F[List[Hash]] = Registry[F].list
 
-
   def module[F[_]: MonadThrow: Sync]: Resource[F, Executor[F]] =
     val unit = Applicative[F].unit.toResource
 
