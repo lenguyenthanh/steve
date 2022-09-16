@@ -13,7 +13,7 @@ object Interpreter:
   def apply[F[_]](using F: Interpreter[F]): Interpreter[F] = F
 
   def instance[F[_]: Applicative]: Interpreter[F] =
-    new Interpreter[F] {
+    new Interpreter[F]:
 
       // can replace monocle with upsert and delete functions
       private val transisition: ResolvedBuild.Command => State[SystemState, Unit] =
@@ -27,4 +27,3 @@ object Interpreter:
         .value
         .pure[F]
 
-    }
