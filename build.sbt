@@ -9,7 +9,7 @@ val Versions =
   new {
     val tapir = "1.1.4"
     val http4s = "0.23.16"
-    val logback = "1.4.4"
+    val logback = "1.4.5"
   }
 
 val nativeImageSettings: Seq[Setting[_]] = Seq(
