@@ -7,9 +7,9 @@ ThisBuild / githubWorkflowBuild ++= Seq(
 
 val Versions =
   new {
-    val tapir = "1.1.4"
+    val tapir = "1.2.4"
     val http4s = "0.23.16"
-    val logback = "1.4.4"
+    val logback = "1.4.5"
   }
 
 val nativeImageSettings: Seq[Setting[_]] = Seq(
@@ -32,11 +32,11 @@ val commonSettings = Seq(
   scalacOptions += "-source:future",
   scalacOptions += "-indent",
   libraryDependencies ++= Seq(
-    "org.typelevel" %% "cats-effect" % "3.3.14",
+    "org.typelevel" %% "cats-effect" % "3.4.2",
     /*"org.typelevel" %% "cats-mtl" % "1.2.1",*/
     "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test,
-    "com.disneystreaming" %% "weaver-cats" % "0.8.0" % Test,
-    "com.disneystreaming" %% "weaver-scalacheck" % "0.8.0" % Test,
+    "com.disneystreaming" %% "weaver-cats" % "0.8.1" % Test,
+    "com.disneystreaming" %% "weaver-scalacheck" % "0.8.1" % Test,
     compilerPlugin("org.polyvariant" % "better-tostring" % "0.3.17" cross CrossVersion.full),
   ),
   testFrameworks += new TestFramework("weaver.framework.CatsEffect"),
@@ -76,7 +76,7 @@ val client = project
       "org.http4s" %% "http4s-ember-client" % Versions.http4s,
       "com.softwaremill.sttp.tapir" %% "tapir-http4s-client" % Versions.tapir,
       "ch.qos.logback" % "logback-classic" % Versions.logback,
-      "com.monovore" %% "decline-effect" % "2.3.1",
+      "com.monovore" %% "decline-effect" % "2.4.1",
     ),
     nativeImageSettings,
   )
