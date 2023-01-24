@@ -19,7 +19,7 @@ object ResolverTests extends SimpleIOSuite with Checkers:
   test("resolve(any build basing on the empty image)") {
     forall {
       (
-        commands: List[Build.Command],
+        commands: List[Build.Command]
       ) =>
         for {
           given Registry[IO] <- Registry.inMemory[IO]
