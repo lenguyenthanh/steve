@@ -12,44 +12,64 @@ class InterpreterTests extends ScalaCheckSuite:
   val interpreter = Interpreter.instance[Id]
 
   property("any system + upsert => the key in the system has the given value") {
-    forAll { (system: SystemState, key: String, value: String) =>
-      val build = ResolvedBuild(system, List(Upsert(key, value)))
-      assertEquals(
-        interpreter.interpret(build).all.get(key),
-        Some(value),
-      )
+    forAll {
+      (
+        system: SystemState,
+        key: String,
+        value: String,
+      ) =>
+        val build = ResolvedBuild(system, List(Upsert(key, value)))
+        assertEquals(
+          interpreter.interpret(build).all.get(key),
+          Some(value),
+        )
     }
   }
 
   property("any system + delete => the key is missing") {
-    forAll { (system: SystemState, key: String) =>
-      val build = ResolvedBuild(system, List(Delete(key)))
-      assertEquals(
-        interpreter.interpret(build).all.get(key),
-        None,
-      )
+    forAll {
+      (
+        system: SystemState,
+        key: String,
+      ) =>
+        val build = ResolvedBuild(system, List(Delete(key)))
+        assertEquals(
+          interpreter.interpret(build).all.get(key),
+          None,
+        )
     }
   }
 
   property("upsert(k, v) + delete(k) == delete(k)") {
-    forAll { (system: SystemState, key: String, value: String) =>
-      val build = ResolvedBuild(system, List(Upsert(key, value), Delete(key)))
-      val build2 = ResolvedBuild(system, List(Delete(key)))
-      assertEquals(
-        interpreter.interpret(build),
-        interpreter.interpret(build2),
-      )
+    forAll {
+      (
+        system: SystemState,
+        key: String,
+        value: String,
+      ) =>
+        val build = ResolvedBuild(system, List(Upsert(key, value), Delete(key)))
+        val build2 = ResolvedBuild(system, List(Delete(key)))
+        assertEquals(
+          interpreter.interpret(build),
+          interpreter.interpret(build2),
+        )
     }
   }
 
   property("upsert(k, v) + upsert(k, v2) == upsert(k, v2)") {
-    forAll { (system: SystemState, key: String, value: String, value2: String) =>
-      val build = ResolvedBuild(system, List(Upsert(key, value), Upsert(key, value2)))
-      val build2 = ResolvedBuild(system, List(Upsert(key, value2)))
-      assertEquals(
-        interpreter.interpret(build),
-        interpreter.interpret(build2),
-      )
+    forAll {
+      (
+        system: SystemState,
+        key: String,
+        value: String,
+        value2: String,
+      ) =>
+        val build = ResolvedBuild(system, List(Upsert(key, value), Upsert(key, value2)))
+        val build2 = ResolvedBuild(system, List(Upsert(key, value2)))
+        assertEquals(
+          interpreter.interpret(build),
+          interpreter.interpret(build2),
+        )
     }
   }
 

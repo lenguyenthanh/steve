@@ -4,9 +4,19 @@ import cats.ApplicativeThrow
 import cats.syntax.all.*
 
 trait Executor[F[_]]:
-  def build(build: Build): F[Hash]
-  def run(hash: Hash): F[SystemState]
+
+  def build(
+    build: Build
+  ): F[Hash]
+
+  def run(
+    hash: Hash
+  ): F[SystemState]
+
   def listImages: F[List[Hash]]
 
 object Executor:
-  def apply[F[_]](using F: Executor[F]): Executor[F] = F
+
+  def apply[F[_]](
+    using F: Executor[F]
+  ): Executor[F] = F

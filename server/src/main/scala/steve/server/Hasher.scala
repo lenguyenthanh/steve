@@ -10,11 +10,16 @@ import steve.SystemState
 import steve.Hash
 
 trait Hasher[F[_]]:
-  def hash(system: SystemState): F[Hash]
+
+  def hash(
+    system: SystemState
+  ): F[Hash]
 
 object Hasher:
 
-  def apply[F[_]](using ev: Hasher[F]) = ev
+  def apply[F[_]](
+    using ev: Hasher[F]
+  ) = ev
 
   // Sync because it is not threadsafe
   def sha256Hasher[F[_]: Sync]: Hasher[F] =

@@ -31,30 +31,39 @@ object ResolverTests extends SimpleIOSuite with Checkers:
   }
 
   test("registry.save(system) >>= resolve == system") {
-    forall { (system: SystemState, commands: List[Build.Command]) =>
-      for {
-        given Registry[IO] <- Registry.inMemory[IO]
-        _ <- unit
-        resolver = Resolver.instance[IO]
+    forall {
+      (
+        system: SystemState,
+        commands: List[Build.Command],
+      ) =>
+        for {
+          given Registry[IO] <- Registry.inMemory[IO]
+          _ <- unit
+          resolver = Resolver.instance[IO]
 
-        baseHash <- Registry[IO].save(system)
-        build = Build(Base.ImageReference(baseHash), commands)
-        resolved <- resolver.resolve(build)
+          baseHash <- Registry[IO].save(system)
+          build = Build(Base.ImageReference(baseHash), commands)
+          resolved <- resolver.resolve(build)
 
-        newBase = resolved.base
-      } yield assert(newBase == system)
+          newBase = resolved.base
+        } yield assert(newBase == system)
     }
   }
 
   test("resolve(unknown hash) fails") {
-    forall { (system: SystemState, commands: List[Build.Command], hash: Hash) =>
-      for {
-        given Registry[IO] <- Registry.inMemory[IO]
-        _ <- unit
-        resolver = Resolver.instance[IO]
+    forall {
+      (
+        system: SystemState,
+        commands: List[Build.Command],
+        hash: Hash,
+      ) =>
+        for {
+          given Registry[IO] <- Registry.inMemory[IO]
+          _ <- unit
+          resolver = Resolver.instance[IO]
 
-        build = Build(Base.ImageReference(hash), commands)
-        resolved <- resolver.resolve(build).attempt
-      } yield assert(resolved == Left(UnknownBase(hash)))
+          build = Build(Base.ImageReference(hash), commands)
+          resolved <- resolver.resolve(build).attempt
+        } yield assert(resolved == Left(UnknownBase(hash)))
     }
   }

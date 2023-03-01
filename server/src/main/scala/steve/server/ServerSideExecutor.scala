@@ -20,12 +20,16 @@ object ServerSideExecutor:
     new Executor[F]:
       private val emptySystem: SystemState = SystemState(Map.empty)
 
-      def build(build: Build): F[Hash] = Resolver[F]
+      def build(
+        build: Build
+      ): F[Hash] = Resolver[F]
         .resolve(build)
         .flatMap(Interpreter[F].interpret)
         .flatMap(Registry[F].save)
 
-      def run(hash: Hash): F[SystemState] = Registry[F]
+      def run(
+        hash: Hash
+      ): F[SystemState] = Registry[F]
         .lookup(hash)
         .flatMap(_.liftTo[F](steve.Build.Error.UnknownHash(hash)))
 

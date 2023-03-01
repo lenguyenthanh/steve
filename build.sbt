@@ -23,7 +23,10 @@ val nativeImageSettings: Seq[Setting[_]] = Seq(
     "--allow-incomplete-classpath",
   ),
   nativeImageAgentMerge := true,
-  nativeImageReady := { () => () },
+  nativeImageReady := {
+    (
+    ) => ()
+  },
 )
 
 val commonSettings = Seq(
@@ -50,7 +53,9 @@ val shared = project.settings(
   ),
 )
 
-def full(p: Project) = p % "test->test;compile->compile"
+def full(
+  p: Project
+) = p % "test->test;compile->compile"
 
 val server = project
   .settings(

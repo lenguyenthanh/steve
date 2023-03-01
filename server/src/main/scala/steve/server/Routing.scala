@@ -17,7 +17,9 @@ import steve.protocol
 
 object Routing:
 
-  def instance[F[_]: Async: MonadThrow](exec: Executor[F]): HttpApp[F] =
+  def instance[F[_]: Async: MonadThrow](
+    exec: Executor[F]
+  ): HttpApp[F] =
     val endpoints: List[ServerEndpoint[Any, F]] = List(
       protocol.build.serverLogicRecoverErrors(exec.build),
       protocol.run.serverLogicSuccess(exec.run),

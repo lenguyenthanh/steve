@@ -10,5 +10,12 @@ final case class ResolvedBuild(
 object ResolvedBuild:
 
   enum Command:
-    case Upsert(key: String, value: String)
-    case Delete(key: String)
+
+    case Upsert(
+      key: String,
+      value: String,
+    )
+
+    case Delete(
+      key: String
+    )

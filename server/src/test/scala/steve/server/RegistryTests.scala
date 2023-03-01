@@ -26,27 +26,37 @@ object RegistryTests extends SimpleIOSuite with Checkers:
   }
 
   test("save is idempotent") {
-    forall { (system: SystemState, systems: List[SystemState], hash: Hash) =>
-      registryR.flatMap { registry =>
-        for
-          hash1 <- registry.save(system)
-          _ <- systems.traverse_(registry.save)
-          hash2 <- registry.save(system)
-        yield assert(hash1 == hash2)
-      }
+    forall {
+      (
+        system: SystemState,
+        systems: List[SystemState],
+        hash: Hash,
+      ) =>
+        registryR.flatMap { registry =>
+          for
+            hash1 <- registry.save(system)
+            _ <- systems.traverse_(registry.save)
+            hash2 <- registry.save(system)
+          yield assert(hash1 == hash2)
+        }
     }
   }
 
   test("lookup is idempotent") {
-    forall { (systems: List[SystemState], otherSystems: List[SystemState], hash: Hash) =>
-      registryR.flatMap { registry =>
-        for
-          _ <- systems.traverse_(registry.save)
-          result1 <- registry.lookup(hash)
-          _ <- otherSystems.traverse_(registry.save)
-          result2 <- registry.lookup(hash)
-        yield assert(result1 == result2)
-      }
+    forall {
+      (
+        systems: List[SystemState],
+        otherSystems: List[SystemState],
+        hash: Hash,
+      ) =>
+        registryR.flatMap { registry =>
+          for
+            _ <- systems.traverse_(registry.save)
+            result1 <- registry.lookup(hash)
+            _ <- otherSystems.traverse_(registry.save)
+            result2 <- registry.lookup(hash)
+          yield assert(result1 == result2)
+        }
     }
   }
 

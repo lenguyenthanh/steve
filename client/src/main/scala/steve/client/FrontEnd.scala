@@ -9,8 +9,15 @@ import steve.Hash
 object FrontEnd:
 
   enum CLICommand:
-    case Build(ctx: Path)
-    case Run(hash: Hash)
+
+    case Build(
+      ctx: Path
+    )
+
+    case Run(
+      hash: Hash
+    )
+
     case List
 
   object CLICommand:

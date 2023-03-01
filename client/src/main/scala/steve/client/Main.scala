@@ -40,7 +40,9 @@ object Main extends CommandIOApp("steve", "CLI for Steve", true, "0.0.1"):
     case CLICommand.Run(hash) => Command.Run(hash).pure[F]
     case CLICommand.List      => Command.List.pure[F]
 
-  def eval[F[_]: Functor](exec: Executor[F]): Command => F[String] =
+  def eval[F[_]: Functor](
+    exec: Executor[F]
+  ): Command => F[String] =
     case Command.Build(build) => exec.build(build).map(_.toHex)
     case Command.Run(hash) => exec.run(hash).map(state => s"SystemState \n\n ${state.prettyPrint}")
     case Command.List =>
