@@ -10,7 +10,10 @@ trait Interpreter[F[_]]:
   def interpret(build: ResolvedBuild): F[SystemState]
 
 object Interpreter:
-  def apply[F[_]](using F: Interpreter[F]): Interpreter[F] = F
+
+  def apply[F[_]](
+    using F: Interpreter[F]
+  ): Interpreter[F] = F
 
   def instance[F[_]: Applicative]: Interpreter[F] =
     new Interpreter[F]:

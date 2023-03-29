@@ -9,4 +9,7 @@ trait Executor[F[_]]:
   def listImages: F[List[Hash]]
 
 object Executor:
-  def apply[F[_]](using F: Executor[F]): Executor[F] = F
+
+  def apply[F[_]](
+    using F: Executor[F]
+  ): Executor[F] = F

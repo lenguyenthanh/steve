@@ -15,27 +15,29 @@ trait Registry[F[_]]:
 
 object Registry:
 
-  def apply[F[_]](using ev: Registry[F]) = ev
+  def apply[F[_]](
+    using ev: Registry[F]
+  ) = ev
 
-  def inMemory[
-    F[_]: MonadThrow: Ref.Make: Hasher
-  ]: F[Registry[F]] = Ref[F].of(Map.empty[Hash, SystemState]).map { ref =>
-    new Registry:
+  def inMemory[F[_]: MonadThrow: Ref.Make: Hasher]: F[Registry[F]] = Ref[F]
+    .of(Map.empty[Hash, SystemState])
+    .map { ref =>
+      new Registry:
 
-      def save(system: SystemState): F[Hash] = Hasher[F].hash(system).flatMap { hash =>
-        ref.modify { map =>
-          (map + (hash -> system), hash)
+        def save(system: SystemState): F[Hash] = Hasher[F].hash(system).flatMap { hash =>
+          ref.modify { map =>
+            (map + (hash -> system), hash)
+          }
         }
-      }
 
-      def lookup(hash: Hash): F[Option[SystemState]] = ref
-        .get
-        .map(_.get(hash))
+        def lookup(hash: Hash): F[Option[SystemState]] = ref
+          .get
+          .map(_.get(hash))
 
-      def list: F[List[Hash]] = ref
-        .get
-        .map(_.keys.toList)
+        def list: F[List[Hash]] = ref
+          .get
+          .map(_.keys.toList)
 
-  }
+    }
 
   def instance[F[_]: MonadThrow: Ref.Make: Hasher] = inMemory

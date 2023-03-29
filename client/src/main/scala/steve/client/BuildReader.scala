@@ -10,7 +10,10 @@ trait BuildReader[F[_]]:
   def read(buildFile: Path): F[Build]
 
 object BuildReader:
-  def apply[F[_]](using F: BuildReader[F]): BuildReader[F] = F
+
+  def apply[F[_]](
+    using F: BuildReader[F]
+  ): BuildReader[F] = F
 
   def instance[F[_]: Files: Concurrent]: BuildReader[F] =
     buildFile =>
