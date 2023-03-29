@@ -14,7 +14,9 @@ trait Hasher[F[_]]:
 
 object Hasher:
 
-  def apply[F[_]](using ev: Hasher[F]) = ev
+  def apply[F[_]](
+    using ev: Hasher[F]
+  ) = ev
 
   // Sync because it is not threadsafe
   def sha256Hasher[F[_]: Sync]: Hasher[F] =

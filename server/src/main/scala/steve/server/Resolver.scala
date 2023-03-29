@@ -15,7 +15,9 @@ trait Resolver[F[_]]:
 
 object Resolver:
 
-  def apply[F[_]](using ev: Resolver[F]) = ev
+  def apply[F[_]](
+    using ev: Resolver[F]
+  ) = ev
 
   def instance[F[_]: Registry: MonadThrow]: Resolver[F] =
     new Resolver:
