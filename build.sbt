@@ -7,9 +7,9 @@ ThisBuild / githubWorkflowBuild ++= Seq(
 
 val Versions =
   new {
-    val tapir = "1.5.0"
+    val tapir = "1.5.1"
     val http4s = "0.23.19"
-    val logback = "1.4.7"
+    val logback = "1.4.8"
   }
 
 val nativeImageSettings: Seq[Setting[_]] = Seq(
@@ -32,7 +32,7 @@ val commonSettings = Seq(
   scalacOptions += "-source:future",
   scalacOptions += "-indent",
   libraryDependencies ++= Seq(
-    "org.typelevel" %% "cats-effect" % "3.5.0",
+    "org.typelevel" %% "cats-effect" % "3.5.1",
     /*"org.typelevel" %% "cats-mtl" % "1.2.1",*/
     "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test,
     "com.disneystreaming" %% "weaver-cats" % "0.8.3" % Test,
