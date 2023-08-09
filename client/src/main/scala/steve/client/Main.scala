@@ -50,13 +50,17 @@ object Main extends CommandIOApp("steve", "CLI for Steve", true, "0.0.1"):
 
   given BuildReader[IO] = BuildReader.instance[IO]
 
-  val main: Opts[IO[ExitCode]] = FrontEnd.parseInput.map {
-    convertCommand[IO](_)
-      .flatMap { cmd =>
-        steve.server.Main.server.surround {
-          exec[IO].use(eval[IO](_)(cmd))
+  val main: Opts[IO[ExitCode]] = FrontEnd
+    .parseInput
+    .map:
+      convertCommand[IO](_)
+        .flatMap { cmd =>
+          steve
+            .server
+            .Main
+            .server
+            .surround:
+              exec[IO].use(eval[IO](_)(cmd))
         }
-      }
-      .flatMap(IO.println)
-      .as(ExitCode.Success)
-  }
+        .flatMap(IO.println)
+        .as(ExitCode.Success)

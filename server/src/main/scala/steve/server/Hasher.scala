@@ -24,9 +24,8 @@ object Hasher:
       val systemBytes =
         system.all.toList.sortBy(_._1).map { case (k, v) => s"$k:$v" }.mkString.getBytes
       Sync[F]
-        .delay {
+        .delay:
           MessageDigest
             .getInstance("SHA-256")
             .digest(systemBytes)
-        }
         .map(bytes => Hash(bytes.toVector))

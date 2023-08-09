@@ -23,7 +23,7 @@ class RoutingTests extends CatsEffectSuite:
     )
   )
 
-  test("POST /api/run") {
+  test("POST /api/run"):
 
     val input = Json.fromString("2864")
 
@@ -45,4 +45,3 @@ class RoutingTests extends CatsEffectSuite:
       ),
       output,
     )
-  }

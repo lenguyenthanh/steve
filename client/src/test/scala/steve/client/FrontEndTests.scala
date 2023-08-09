@@ -16,18 +16,15 @@ object FrontEndTests extends FunSuite:
     args: String*
   ) = decline.Command("test", "Test Command")(FrontEnd.parseInput).parse(args)
 
-  test("list command") {
+  test("list command"):
     assert.eql(testCommand("list"), Right(CLICommand.List))
-  }
 
-  test("build command") {
+  test("build command"):
     assert.eql(testCommand("build", "."), Right(CLICommand.Build(Paths.get("."))))
-  }
 
-  test("run command") {
+  test("run command"):
     val hash = "4162fddd39a3e4225e8e2392eced237fbeb34e6e218b5647d27bd4d2b9c0da24"
     assert.eql(
       testCommand("run", hash),
       Right(CLICommand.Run(Hash.parse(hash).toOption.get)),
     )
-  }

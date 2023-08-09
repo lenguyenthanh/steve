@@ -19,9 +19,8 @@ object Main extends IOApp.Simple:
         .default[IO]
         .withHost(host"0.0.0.0")
         .withPort(port"8080")
-        .withHttpApp {
+        .withHttpApp:
           Routing.instance(exe)
-        }
         .build
     }
 
