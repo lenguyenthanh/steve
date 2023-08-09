@@ -16,8 +16,8 @@ object ResolverTests extends SimpleIOSuite with Checkers:
   given Hasher[IO] = Hasher.sha256Hasher[IO]
   val unit = Applicative[IO].unit
 
-  test("resolve(any build basing on the empty image)") {
-    forall {
+  test("resolve(any build basing on the empty image)"):
+    forall:
       (
         commands: List[Build.Command]
       ) =>
@@ -27,10 +27,8 @@ object ResolverTests extends SimpleIOSuite with Checkers:
           resolved <- Resolver.instance[IO].resolve(build)
           newBase = resolved.base
         } yield assert(newBase == SystemState.empty)
-    }
-  }
 
-  test("registry.save(system) >>= resolve == system") {
+  test("registry.save(system) >>= resolve == system"):
     forall { (system: SystemState, commands: List[Build.Command]) =>
       for {
         given Registry[IO] <- Registry.inMemory[IO]
@@ -44,9 +42,8 @@ object ResolverTests extends SimpleIOSuite with Checkers:
         newBase = resolved.base
       } yield assert(newBase == system)
     }
-  }
 
-  test("resolve(unknown hash) fails") {
+  test("resolve(unknown hash) fails"):
     forall { (system: SystemState, commands: List[Build.Command], hash: Hash) =>
       for {
         given Registry[IO] <- Registry.inMemory[IO]
@@ -57,4 +54,3 @@ object ResolverTests extends SimpleIOSuite with Checkers:
         resolved <- resolver.resolve(build).attempt
       } yield assert(resolved == Left(UnknownBase(hash)))
     }
-  }

@@ -53,49 +53,43 @@ class CompatTests extends CatsEffectSuite:
     )
   )
 
-  test("Build image - success") {
+  test("Build image - success"):
 
     assertIO(
       client.build(goodBuild),
       goodBuildResult,
     )
-  }
 
-  test("Build image - unknown base error") {
+  test("Build image - unknown base error"):
     assertIO(
       client.build(unknownBaseBuild).attempt,
       unknownBaseError.asLeft,
     )
-  }
 
-  test("Build image - unexpected error") {
+  test("Build image - unexpected error"):
 
     assertIO(
       client.build(unexpectedFailingBuild).attempt,
       GenericServerError("server failed").asLeft,
     )
-  }
 
-  test("Run hash - success") {
+  test("Run hash - success"):
 
     assertIO(
       client.run(goodHash),
       goodRunResult,
     )
-  }
 
-  test("Run hash - unexpected error") {
+  test("Run hash - unexpected error"):
 
     assertIO(
       client.run(unexpectedFailingHash).attempt,
       GenericServerError("server failed").asLeft,
     )
-  }
 
-  test("List Images - success") {
+  test("List Images - success"):
 
     assertIO(
       client.listImages.attempt,
       List(goodHash).asRight,
     )
-  }

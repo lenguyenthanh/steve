@@ -35,7 +35,7 @@ object ClientSideExecutor:
 
         client
           .run(req)
-          .use {
+          .use:
             case r if r.status == Status.InternalServerError =>
               r.bodyText
                 .compile
@@ -43,7 +43,6 @@ object ClientSideExecutor:
                 .flatMap(io.circe.parser.decode[GenericServerError](_).liftTo[F])
                 .flatMap(_.raiseError[F, O])
             case r => handler(r).rethrow
-          }
 
       def build(build: Build): F[Hash] = run(protocol.build, build)
 

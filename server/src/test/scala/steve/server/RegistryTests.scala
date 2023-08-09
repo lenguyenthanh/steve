@@ -14,7 +14,7 @@ object RegistryTests extends SimpleIOSuite with Checkers:
   given Hasher[IO] = Hasher.sha256Hasher[IO]
   val registryR = Registry.instance[IO]
 
-  test("save -> lookup returns the same system") {
+  test("save -> lookup returns the same system"):
     forall { (system: SystemState) =>
       registryR.flatMap { registry =>
         for
@@ -23,9 +23,8 @@ object RegistryTests extends SimpleIOSuite with Checkers:
         yield assert(result.contains(system))
       }
     }
-  }
 
-  test("save is idempotent") {
+  test("save is idempotent"):
     forall { (system: SystemState, systems: List[SystemState], hash: Hash) =>
       registryR.flatMap { registry =>
         for
@@ -35,9 +34,8 @@ object RegistryTests extends SimpleIOSuite with Checkers:
         yield assert(hash1 == hash2)
       }
     }
-  }
 
-  test("lookup is idempotent") {
+  test("lookup is idempotent"):
     forall { (systems: List[SystemState], otherSystems: List[SystemState], hash: Hash) =>
       registryR.flatMap { registry =>
         for
@@ -48,16 +46,14 @@ object RegistryTests extends SimpleIOSuite with Checkers:
         yield assert(result1 == result2)
       }
     }
-  }
 
-  test("list on an empty registry is empty") {
+  test("list on an empty registry is empty"):
     registryR.flatMap { registry =>
       for result <- registry.list
       yield assert(result.isEmpty)
     }
-  }
 
-  test("save + list returns saved systems") {
+  test("save + list returns saved systems"):
     forall { (systems: List[SystemState]) =>
       registryR.flatMap { registry =>
         for
@@ -66,4 +62,3 @@ object RegistryTests extends SimpleIOSuite with Checkers:
         yield assert(list.toSet == hashes.toSet)
       }
     }
-  }
