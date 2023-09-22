@@ -1,5 +1,6 @@
 ThisBuild / scalaVersion := "3.3.1"
 ThisBuild / versionScheme := Some("early-semver")
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("17"))
 ThisBuild / githubWorkflowPublishTargetBranches := Seq() // Don't publish anywhere
 ThisBuild / githubWorkflowBuild ++= Seq(
   WorkflowStep.Sbt(List("scalafmtCheckAll"), name = Some("Check Formatting"))
