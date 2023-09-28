@@ -1,5 +1,5 @@
 addSbtPlugin("org.typelevel" % "sbt-tpolecat" % "0.5.0")
-addSbtPlugin("com.github.sbt" % "sbt-github-actions" % "0.16.0")
+addSbtPlugin("com.github.sbt" % "sbt-github-actions" % "0.17.0")
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.12")
 addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.3.4")
 addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.3.2")
