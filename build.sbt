@@ -8,7 +8,7 @@ ThisBuild / githubWorkflowBuild ++= Seq(
 
 val Versions =
   new {
-    val tapir = "1.9.0"
+    val tapir = "1.9.9"
     val http4s = "0.23.23"
     val logback = "1.4.14"
   }
