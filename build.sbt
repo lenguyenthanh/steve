@@ -64,7 +64,7 @@ val server = project
       "dev.optics" %% "monocle-core" % "3.2.0",
       "org.http4s" %% "http4s-circe" % Versions.http4s % Test,
       "org.http4s" %% "http4s-client" % Versions.http4s % Test,
-      "org.scalameta" %% "munit-scalacheck" % "0.7.29" % Test,
+      "org.scalameta" %% "munit-scalacheck" % "1.0.0" % Test,
     ),
   )
   .dependsOn(full(shared))
