@@ -61,7 +61,7 @@ val server = project
       "org.http4s" %% "http4s-ember-server" % Versions.http4s,
       "com.softwaremill.sttp.tapir" %% "tapir-http4s-server" % Versions.tapir,
       "ch.qos.logback" % "logback-classic" % Versions.logback,
-      "dev.optics" %% "monocle-core" % "3.2.0",
+      "dev.optics" %% "monocle-core" % "3.3.0",
       "org.http4s" %% "http4s-circe" % Versions.http4s % Test,
       "org.http4s" %% "http4s-client" % Versions.http4s % Test,
       "org.scalameta" %% "munit-scalacheck" % "0.7.29" % Test,
