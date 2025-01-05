@@ -77,7 +77,7 @@ val client = project
       "org.http4s" %% "http4s-ember-client" % Versions.http4s,
       "com.softwaremill.sttp.tapir" %% "tapir-http4s-client" % Versions.tapir,
       "ch.qos.logback" % "logback-classic" % Versions.logback,
-      "com.monovore" %% "decline-effect" % "2.4.1",
+      "com.monovore" %% "decline-effect" % "2.5.0",
     ),
     nativeImageSettings,
   )
