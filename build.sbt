@@ -33,7 +33,7 @@ val commonSettings = Seq(
   scalacOptions += "-source:future",
   scalacOptions += "-indent",
   libraryDependencies ++= Seq(
-    "org.typelevel" %% "cats-effect" % "3.5.7",
+    "org.typelevel" %% "cats-effect" % "3.6.0",
     /*"org.typelevel" %% "cats-mtl" % "1.2.1",*/
     "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test,
     "com.disneystreaming" %% "weaver-cats" % "0.8.4" % Test,
