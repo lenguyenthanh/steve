@@ -20,7 +20,7 @@ object RegistryTests extends SimpleIOSuite with Checkers:
         for
           hash <- registry.save(system)
           result <- registry.lookup(hash)
-        yield assert(result.contains(system))
+        yield expect(result.contains(system))
       }
     }
 
@@ -31,7 +31,7 @@ object RegistryTests extends SimpleIOSuite with Checkers:
           hash1 <- registry.save(system)
           _ <- systems.traverse_(registry.save)
           hash2 <- registry.save(system)
-        yield assert(hash1 == hash2)
+        yield expect(hash1 == hash2)
       }
     }
 
@@ -43,14 +43,14 @@ object RegistryTests extends SimpleIOSuite with Checkers:
           result1 <- registry.lookup(hash)
           _ <- otherSystems.traverse_(registry.save)
           result2 <- registry.lookup(hash)
-        yield assert(result1 == result2)
+        yield expect(result1 == result2)
       }
     }
 
   test("list on an empty registry is empty"):
     registryR.flatMap { registry =>
       for result <- registry.list
-      yield assert(result.isEmpty)
+      yield expect(result.isEmpty)
     }
 
   test("save + list returns saved systems"):
@@ -59,6 +59,6 @@ object RegistryTests extends SimpleIOSuite with Checkers:
         for
           hashes <- systems.traverse(registry.save)
           list <- registry.list
-        yield assert(list.toSet == hashes.toSet)
+        yield expect(list.toSet == hashes.toSet)
       }
     }
