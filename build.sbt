@@ -35,7 +35,7 @@ val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "org.typelevel" %% "cats-effect" % "3.6.3",
     /*"org.typelevel" %% "cats-mtl" % "1.2.1",*/
-    "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test,
+    "org.typelevel" %% "munit-cats-effect" % "2.1.0" % Test,
     "com.disneystreaming" %% "weaver-cats" % "0.8.4" % Test,
     "com.disneystreaming" %% "weaver-scalacheck" % "0.8.4" % Test,
     compilerPlugin("org.polyvariant" % "better-tostring" % "0.3.17" cross CrossVersion.full),
