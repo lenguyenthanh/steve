@@ -26,7 +26,7 @@ object ResolverTests extends SimpleIOSuite with Checkers:
           build = Build(Base.EmptyImage, commands)
           resolved <- Resolver.instance[IO].resolve(build)
           newBase = resolved.base
-        } yield assert(newBase == SystemState.empty)
+        } yield expect(newBase == SystemState.empty)
 
   test("registry.save(system) >>= resolve == system"):
     forall { (system: SystemState, commands: List[Build.Command]) =>
@@ -40,7 +40,7 @@ object ResolverTests extends SimpleIOSuite with Checkers:
         resolved <- resolver.resolve(build)
 
         newBase = resolved.base
-      } yield assert(newBase == system)
+      } yield expect(newBase == system)
     }
 
   test("resolve(unknown hash) fails"):
@@ -52,5 +52,5 @@ object ResolverTests extends SimpleIOSuite with Checkers:
 
         build = Build(Base.ImageReference(hash), commands)
         resolved <- resolver.resolve(build).attempt
-      } yield assert(resolved == Left(UnknownBase(hash)))
+      } yield expect(resolved == Left(UnknownBase(hash)))
     }
