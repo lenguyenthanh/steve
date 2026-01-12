@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "3.3.5"
+ThisBuild / scalaVersion := "3.3.7"
 ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("17"))
 ThisBuild / githubWorkflowPublishTargetBranches := Seq() // Don't publish anywhere
