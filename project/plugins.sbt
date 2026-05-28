@@ -4,6 +4,6 @@ addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.11.2")
 addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.4.0")
 addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.3.2")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.1")
-addSbtPlugin("ch.epfl.scala" % "sbt-bloop" % "2.0.19")
+addSbtPlugin("ch.epfl.scala" % "sbt-bloop" % "2.1.0")
 
 addDependencyTreePlugin
